@@ -478,51 +478,46 @@ class WizardSyncUserRoles(models.TransientModel):
 
         self.env["wizard.sync.user.roles.line"].create(lines_to_create)
         self.write({"state": "preview"})
+        return self._reopen_wizard()
 
+    def _reopen_wizard(self):
+        self.ensure_one()
+        self.invalidate_recordset()
+        view = self.env.ref("user_role_sync.view_wizard_sync_user_roles_form", raise_if_not_found=False)
         return {
+            "name": _("Sync Roles from Excel"),
             "type": "ir.actions.act_window",
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
+            "view_id": view.id if view else False,
+            "views": [(view.id if view else False, "form")],
             "target": "new",
+            "context": dict(self.env.context),
         }
 
     def action_select_all(self):
         """Memilih seluruh baris user yang cocok di Odoo."""
         self.ensure_one()
-        self.line_ids.filtered(lambda l: l.user_status == "matched").write({"is_selected": True})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        matched_lines = self.line_ids.filtered(lambda l: l.user_status == "matched" or bool(l.user_id))
+        if matched_lines:
+            matched_lines.write({"is_selected": True})
+        else:
+            self.line_ids.write({"is_selected": True})
+        return self._reopen_wizard()
 
     def action_deselect_all(self):
         """Membatalkan pilihan seluruh baris."""
         self.ensure_one()
         self.line_ids.write({"is_selected": False})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     def action_back_to_upload(self):
         """Kembali ke mode upload untuk mengganti file jika preview belum sesuai."""
         self.ensure_one()
         self.line_ids.unlink()
         self.write({"state": "draft"})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     # =========================================================================
     # STEP 2: CONFIRM & APPLY ROLES TO RES.USERS
@@ -608,14 +603,7 @@ class WizardSyncUserRoles(models.TransientModel):
             "result_summary": summary_html,
             "state": "done",
         })
-
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     def action_view_updated_users(self):
         """Membuka view res.users untuk mengecek langsung tab User Roles pada user-user yang di-update."""
