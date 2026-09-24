@@ -1,4 +1,4 @@
-# Copyright 2026 Spektra Solusindo
+# Copyright 2026 CV. Anugerah Khair Arkananta
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html).
 
 {
@@ -7,7 +7,7 @@
     "version": "18.0.1.0.0",
     "category": "Administration",
     "website": "https://github.com/OCA/server-tools",
-    "author": "Spektra Solusindo, Odoo Community Association (OCA)",
+    "author": "CV. Anugerah Khair Arkananta, Odoo Community Association (OCA)",
     "license": "LGPL-3",
     "application": False,
     "installable": True,

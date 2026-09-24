@@ -1,4 +1,4 @@
-# Copyright 2026 Spektra Solusindo
+# Copyright 2026 CV. Anugerah Khair Arkananta
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html).
 
 import base64
@@ -86,6 +86,10 @@ class WizardSyncUserRoles(models.TransientModel):
         string="User Belum Ada",
         compute="_compute_counts",
     )
+    selected_rows = fields.Integer(
+        string="Dipilih",
+        compute="_compute_counts",
+    )
 
     result_summary = fields.Html(
         string="Ringkasan Hasil Sinkronisasi",
@@ -101,12 +105,13 @@ class WizardSyncUserRoles(models.TransientModel):
         default="draft",
     )
 
-    @api.depends("line_ids", "line_ids.user_status")
+    @api.depends("line_ids", "line_ids.user_status", "line_ids.is_selected")
     def _compute_counts(self):
         for rec in self:
             rec.total_rows = len(rec.line_ids)
             rec.matched_rows = len(rec.line_ids.filtered(lambda l: l.user_status == "matched"))
             rec.missing_rows = len(rec.line_ids.filtered(lambda l: l.user_status == "missing"))
+            rec.selected_rows = len(rec.line_ids.filtered(lambda l: l.is_selected and l.user_status == "matched"))
 
     def _get_active_app_categories(self):
         """Mendeteksi seluruh kategori aplikasi/modul yang aktif di database ini secara dinamis."""
@@ -118,10 +123,12 @@ class WizardSyncUserRoles(models.TransientModel):
         ], order="sequence, name")
 
         valid_categories = []
+        seen_names = set()
         for cat in categories:
             grps = Group.search([("category_id", "=", cat.id)])
-            if grps:
+            if grps and cat.name and cat.name.strip() not in seen_names:
                 valid_categories.append(cat)
+                seen_names.add(cat.name.strip())
 
         return valid_categories
 
@@ -346,16 +353,20 @@ class WizardSyncUserRoles(models.TransientModel):
         cat_by_name = {c.name.lower().strip(): c for c in all_categories}
 
         for idx, h in enumerate(headers):
+            if not h:
+                continue
             h_clean = h.lower().replace(" ", "").replace("/", "").replace("_", "")
-            if ("nama" in h_clean or "name" in h_clean or "user" in h_clean) and "role" not in h_clean and "email" not in h_clean and "login" not in h_clean:
+            
+            # Map standard base columns without allowing app category columns to overwrite them
+            if "name" not in col_map and ("nama" in h_clean or "name" in h_clean) and not any(k in h_clean for k in ["role", "email", "login", "marketing", "type", "app", "category", "akses"]):
                 col_map["name"] = idx
-            elif "email" in h_clean or "login" in h_clean or "username" in h_clean:
+            elif "login" not in col_map and ("login" in h_clean or "email" in h_clean or "username" in h_clean) and not any(k in h_clean for k in ["marketing", "role", "app"]):
                 col_map["login"] = idx
-            elif "role" in h_clean:
+            elif "role" not in col_map and any(k in h_clean for k in ["role", "roles", "peran", "hakakses"]):
                 col_map["role"] = idx
-            elif "jabatan" in h_clean or "dept" in h_clean or "job" in h_clean:
+            elif "job" not in col_map and any(k in h_clean for k in ["jabatan", "dept", "depart", "job", "posisi", "divisi", "position", "title"]):
                 col_map["job"] = idx
-            elif "enabled" in h_clean or "active" in h_clean:
+            elif "enabled" not in col_map and any(k in h_clean for k in ["enabled", "active", "aktif", "statusaktif", "isactive", "isenabled"]):
                 col_map["enabled"] = idx
             else:
                 matched_cat = None
@@ -384,17 +395,17 @@ class WizardSyncUserRoles(models.TransientModel):
         for row_idx, row in enumerate(
             ws.iter_rows(min_row=2, values_only=True), start=2
         ):
-            if not row or all(v is None for v in row):
+            if not row or all(v is None or str(v).strip() == "" for v in row):
                 continue
 
             user_name = (
                 str(row[name_idx]).strip()
-                if len(row) > name_idx and row[name_idx] is not None
+                if name_idx is not None and len(row) > name_idx and row[name_idx] is not None
                 else ""
             )
             user_login = (
                 str(row[login_idx]).strip()
-                if len(row) > login_idx and row[login_idx] is not None
+                if login_idx is not None and len(row) > login_idx and row[login_idx] is not None
                 else ""
             )
             user_job = (
@@ -404,7 +415,7 @@ class WizardSyncUserRoles(models.TransientModel):
             )
             is_enabled = True
             if enabled_idx is not None and len(row) > enabled_idx and row[enabled_idx] is not None:
-                is_enabled = str(row[enabled_idx]).strip().lower() not in ["false", "0", "no", "disabled"]
+                is_enabled = str(row[enabled_idx]).strip().lower() not in ["false", "0", "no", "disabled", "nonaktif", "tidak"]
 
             if not user_name and not user_login:
                 continue
@@ -451,6 +462,7 @@ class WizardSyncUserRoles(models.TransientModel):
             lines_to_create.append({
                 "wizard_id": self.id,
                 "row_index": row_idx,
+                "is_selected": True if user_status == "matched" else False,
                 "name_excel": user_name or "-",
                 "login_excel": user_login or "-",
                 "job_excel": user_job or "-",
@@ -467,6 +479,30 @@ class WizardSyncUserRoles(models.TransientModel):
         self.env["wizard.sync.user.roles.line"].create(lines_to_create)
         self.write({"state": "preview"})
 
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "target": "new",
+        }
+
+    def action_select_all(self):
+        """Memilih seluruh baris user yang cocok di Odoo."""
+        self.ensure_one()
+        self.line_ids.filtered(lambda l: l.user_status == "matched").write({"is_selected": True})
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "target": "new",
+        }
+
+    def action_deselect_all(self):
+        """Membatalkan pilihan seluruh baris."""
+        self.ensure_one()
+        self.line_ids.write({"is_selected": False})
         return {
             "type": "ir.actions.act_window",
             "res_model": self._name,
@@ -497,6 +533,10 @@ class WizardSyncUserRoles(models.TransientModel):
         if not self.line_ids:
             raise UserError(_("Tidak ada data yang dapat disinkronkan. Silakan muat file Excel terlebih dahulu."))
 
+        selected_lines = self.line_ids.filtered(lambda l: l.is_selected and l.user_id)
+        if not selected_lines:
+            raise UserError(_("Tidak ada baris user yang dipilih untuk disinkronkan. Silakan centang minimal satu user yang berstatus 'Ditemukan di Odoo'."))
+
         Role = self.env["res.users.role"].sudo()
         RoleLine = self.env["res.users.role.line"].sudo()
         Group = self.env["res.groups"].sudo()
@@ -505,14 +545,9 @@ class WizardSyncUserRoles(models.TransientModel):
         base_user_group = self.env.ref("base.group_user", raise_if_not_found=False)
 
         updated_users = []
-        missing_count = 0
         assigned_count = 0
 
-        for line in self.line_ids:
-            if not line.user_id:
-                missing_count += 1
-                continue
-
+        for line in selected_lines:
             user = line.user_id
             target_role_names = [r.strip() for r in (line.role_names or "").split(",") if r.strip()]
             
@@ -607,14 +642,13 @@ class WizardSyncUserRolesLine(models.TransientModel):
         ondelete="cascade",
     )
     row_index = fields.Integer(string="Baris")
-    name_excel = fields.Char(string="Nama (Excel)")
-    login_excel = fields.Char(string="Email / Login (Excel)")
-    job_excel = fields.Char(string="Jabatan / Dept")
-    
     user_id = fields.Many2one(
         comodel_name="res.users",
         string="User Cocok di Odoo",
     )
+    name_excel = fields.Char(string="Nama (Excel)")
+    login_excel = fields.Char(string="Email / Login (Excel)")
+    job_excel = fields.Char(string="Jabatan / Dept")
     user_status = fields.Selection(
         selection=[
             ("matched", "Ditemukan di Odoo"),
@@ -623,6 +657,11 @@ class WizardSyncUserRolesLine(models.TransientModel):
         string="Status User",
         default="matched",
     )
+    is_selected = fields.Boolean(
+        string="Pilih",
+        default=True,
+        help="Centang untuk menyinkronkan user ini ke Odoo.",
+    )
     role_names = fields.Char(string="Target Role(s)")
     permissions_summary = fields.Char(string="Izin Modul Dinamis")
-    is_enabled = fields.Boolean(string="Aktif", default=True)
+    is_enabled = fields.Boolean(string="Role Aktif", default=True)
