@@ -7,24 +7,72 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
+        :root {
+            --primary-color: #714B67;
+            --primary-dark: #56394e;
+            --primary-light: #f5eff3;
+            --secondary-color: #008784;
+            --secondary-light: #e6f7f6;
+            --dark-color: #1e293b;
+            --light-bg: #f8fafc;
+            --card-border: #e2e8f0;
+        }
+        body {
+            background-color: var(--light-bg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #334155;
+            line-height: 1.6;
+        }
         .gradient-hero {
             background: linear-gradient(135deg, #714B67 0%, #008784 100%);
             color: #ffffff;
+            border-radius: 20px;
+            padding: 55px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50rem;
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .hero-pill {
+            background: #ffffff;
+            color: #1e293b;
+            border-radius: 50rem;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: inline-flex;
+            align-items: center;
+        }
+        .section-card {
+            border: 1px solid var(--card-border);
             border-radius: 16px;
-            padding: 50px 30px;
+            padding: 35px 30px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03), 0 2px 4px -2px rgba(0,0,0,0.03);
+            margin-bottom: 35px;
         }
         .feature-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 25px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 24px;
             background: #ffffff;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
             height: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.25s ease;
         }
         .feature-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
         }
         .icon-box {
             width: 52px;
@@ -36,92 +84,295 @@
             font-size: 22px;
             margin-bottom: 18px;
         }
-        .code-pill {
-            background-color: #f1f5f9;
-            color: #475569;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
-        .step-badge {
-            width: 44px;
-            height: 44px;
+        .step-circle {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .code-pill {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.88em;
+            border: 1px solid #e2e8f0;
+        }
+        .table-custom th {
+            background-color: #f8fafc;
+            color: #475569;
             font-weight: 700;
-            font-size: 18px;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-custom td {
+            vertical-align: middle;
+            font-size: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .highlight-box {
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--primary-light);
+            border-radius: 0 10px 10px 0;
+            padding: 16px 20px;
+        }
+        .accordion-button:not(.collapsed) {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            font-weight: 700;
+        }
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(113, 75, 103, 0.25);
+            border-color: var(--primary-color);
         }
     </style>
 </head>
-<body style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-<div class="container py-4">
+<body>
+<div class="container py-4 my-2" style="max-width: 1140px;">
 
-    <!-- HERO HEADER -->
+    <!-- ================================================================= -->
+    <!-- HERO HEADER                                                      -->
+    <!-- ================================================================= -->
     <div class="gradient-hero mb-5 shadow text-center">
-        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-20 text-white mb-3" style="font-size: 13px;">
-            <i class="fa fa-layer-group"></i> OCA Server Tools Extension • Odoo 18.0
+        <div class="d-inline-flex align-items-center gap-2 hero-badge mb-3">
+            <i class="fa fa-cubes"></i> OCA Server Tools Extension • Odoo 18.0 Community &amp; Enterprise
         </div>
         <h1 class="display-5 fw-bold mb-3">User Role Sync from Excel</h1>
-        <p class="lead mb-4" style="max-width: 780px; margin: 0 auto; opacity: 0.95;">
-            Import, map, and batch-synchronize user access roles directly from Excel (.xlsx) spreadsheets with <strong>Selective User Synchronization</strong> and interactive 2-step verification preview.
+        <p class="lead mb-4" style="max-width: 820px; margin: 0 auto; opacity: 0.95; font-size: 1.15rem;">
+            A complete, enterprise-grade solution to import, map, verify, and batch-synchronize user access roles directly from Microsoft Excel spreadsheets (<span style="text-decoration: underline;">.xlsx</span>) with granular selective controls and instant security group recalculation.
         </p>
         <div class="d-flex justify-content-center gap-2 flex-wrap">
-            <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm"><i class="fa fa-check-circle text-success me-1"></i> Odoo 18.0 Ready</span>
-            <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm"><i class="fa fa-check-square text-primary me-1"></i> Selective Row Sync</span>
-            <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm"><i class="fa fa-shield-alt text-primary me-1"></i> OCA base_user_role Compatible</span>
-            <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm"><i class="fa fa-file-excel text-success me-1"></i> Dynamic .xlsx Generator</span>
+            <span class="hero-pill"><i class="fa fa-check-circle text-success me-2"></i> Odoo 18.0 Ready</span>
+            <span class="hero-pill"><i class="fa fa-check-square text-primary me-2"></i> Selective Row Sync</span>
+            <span class="hero-pill"><i class="fa fa-shield-alt text-primary me-2"></i> OCA base_user_role Standard</span>
+            <span class="hero-pill"><i class="fa fa-file-excel text-success me-2"></i> Dynamic .xlsx Generator</span>
+            <span class="hero-pill"><i class="fa fa-bolt text-warning me-2"></i> Instant Group Recalculation</span>
         </div>
     </div>
 
-    <!-- VALUE PROPOSITIONS / HIGHLIGHTS -->
-    <div class="card border-0 shadow-sm p-4 mb-5 rounded-4 bg-white">
-        <h3 class="fw-bold mb-4 text-center">How It Simplifies User Access Management</h3>
+    <!-- ================================================================= -->
+    <!-- PROBLEM VS SOLUTION                                              -->
+    <!-- ================================================================= -->
+    <div class="section-card">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <div class="p-4 rounded-4 bg-light border border-danger border-opacity-25 h-100">
+                    <div class="d-flex align-items-center mb-3 text-danger">
+                        <i class="fa fa-times-circle fa-2x me-3"></i>
+                        <h4 class="fw-bold mb-0">The Manual Challenge</h4>
+                    </div>
+                    <ul class="text-muted ps-3 mb-0" style="font-size: 14.5px;">
+                        <li class="mb-2"><strong>Time Consuming:</strong> Assigning 50+ individual security checkboxes per user for dozens of employees takes hours of manual clicking.</li>
+                        <li class="mb-2"><strong>High Error Rate:</strong> Human error frequently leads to over-privileged or missing access rights across departments.</li>
+                        <li class="mb-2"><strong>Difficult Auditing:</strong> Hard to share security matrices with HR, department leads, or external ISO auditors who work primarily with spreadsheets.</li>
+                        <li><strong>Reorganization Headaches:</strong> Bulk updates during department restructuring or mass onboarding cause significant administrative bottleneck.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-4 rounded-4 bg-light border border-success border-opacity-25 h-100">
+                    <div class="d-flex align-items-center mb-3 text-success">
+                        <i class="fa fa-check-circle fa-2x me-3"></i>
+                        <h4 class="fw-bold mb-0">The Smart Solution</h4>
+                    </div>
+                    <ul class="text-muted ps-3 mb-0" style="font-size: 14.5px;">
+                        <li class="mb-2"><strong>Spreadsheet-Driven:</strong> Maintain user roles in standard Excel files and batch-sync directly into Odoo in seconds.</li>
+                        <li class="mb-2"><strong>Interactive Preview:</strong> Verify matched accounts, target roles, and missing users before any database changes occur.</li>
+                        <li class="mb-2"><strong>Selective User Sync:</strong> Toggle individual rows on/off to sync only the users you want without affecting others.</li>
+                        <li><strong>Standard OCA Architecture:</strong> 100% compliant with <span class="code-pill">base_user_role</span>, ensuring clean upgrade paths and zero vendor lock-in.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 2 SYNCHRONIZATION MODES                                           -->
+    <!-- ================================================================= -->
+    <div class="section-card">
+        <h3 class="fw-bold text-center mb-2">Two Flexible Synchronization Modes</h3>
+        <p class="text-muted text-center mb-4" style="max-width: 720px; margin: 0 auto;">
+            Choose the format that matches your organizational workflow: map existing role definitions or generate dynamic module matrices.
+        </p>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="p-3 bg-light rounded-3 text-center h-100">
-                    <div class="step-badge bg-primary text-white mb-3 shadow-sm">1</div>
-                    <h5 class="fw-bold">Upload & Auto-Discover</h5>
-                    <p class="text-muted small mb-0">
-                        Upload your matrix or generate a dynamic template discovering all installed module categories in real time.
+            <!-- Mode 1 -->
+            <div class="col-md-6">
+                <div class="p-4 rounded-4 border h-100 bg-white shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary mb-0 me-3">
+                            <i class="fa fa-list-ol"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary text-white mb-1">Mode 1</span>
+                            <h5 class="fw-bold mb-0">Role Assignment Matrix</h5>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        Ideal for companies with predefined roles (e.g., <em>"Role Manager Operasional"</em>, <em>"Role Staff Keuangan"</em>). Assign one or multiple roles per user in a single cell.
                     </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm table-custom mb-2">
+                            <thead>
+                                <tr>
+                                    <th>Nama User</th>
+                                    <th>Email / Login</th>
+                                    <th>Jabatan</th>
+                                    <th>Roles (Comma Separated)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ahmad Faisal</td>
+                                    <td>ahmad@company.com</td>
+                                    <td>Manager</td>
+                                    <td><span class="badge bg-secondary">Role Manager Operasional</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Dewi Lestari</td>
+                                    <td>dewi@company.com</td>
+                                    <td>Staff HR</td>
+                                    <td><span class="badge bg-secondary">Role Staff HR, Role Internal</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted"><i class="fa fa-info-circle text-primary me-1"></i> Supports multiple comma-separated roles per user.</small>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="p-3 bg-light rounded-3 text-center h-100">
-                    <div class="step-badge bg-warning text-white mb-3 shadow-sm">2</div>
-                    <h5 class="fw-bold">Select & Verify (Preview)</h5>
-                    <p class="text-muted small mb-0">
-                        Inspect matched accounts, selectively check/uncheck users to sync, or use bulk select/deselect controls.
+
+            <!-- Mode 2 -->
+            <div class="col-md-6">
+                <div class="p-4 rounded-4 border h-100 bg-white shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-box bg-success bg-opacity-10 text-success mb-0 me-3">
+                            <i class="fa fa-th"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-success text-white mb-1">Mode 2</span>
+                            <h5 class="fw-bold mb-0">Application Permission Matrix</h5>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        Auto-detects all installed Odoo apps in your database and creates dedicated columns with dropdown choices (<em>Create, Read, Edit</em> / <em>Read Only</em> / <em>-</em>).
                     </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-3 bg-light rounded-3 text-center h-100">
-                    <div class="step-badge bg-success text-white mb-3 shadow-sm">3</div>
-                    <h5 class="fw-bold">Apply & Enforce Roles</h5>
-                    <p class="text-muted small mb-0">
-                        Instantly provisions roles and updates user security groups with full OCA compliance.
-                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm table-custom mb-2">
+                            <thead>
+                                <tr>
+                                    <th>Nama User</th>
+                                    <th>Sales</th>
+                                    <th>Purchase</th>
+                                    <th>Accounting</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Budi Santoso</td>
+                                    <td><span class="badge bg-success">Create, Read, Edit</span></td>
+                                    <td><span class="badge bg-info text-dark">Read Only</span></td>
+                                    <td><span class="badge bg-light text-dark">-</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Siti Rahma</td>
+                                    <td><span class="badge bg-info text-dark">Read Only</span></td>
+                                    <td><span class="badge bg-success">Create, Read, Edit</span></td>
+                                    <td><span class="badge bg-success">Create, Read, Edit</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted"><i class="fa fa-magic text-success me-1"></i> Template includes Excel dropdown data validations automatically.</small>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- DETAILED FEATURE GRID -->
+    <!-- ================================================================= -->
+    <!-- 3-STEP INTERACTIVE WORKFLOW                                       -->
+    <!-- ================================================================= -->
+    <div class="section-card">
+        <h3 class="fw-bold text-center mb-2">Intuitive 3-Step Interactive Workflow</h3>
+        <p class="text-muted text-center mb-5" style="max-width: 680px; margin: 0 auto;">
+            Designed for safety, transparency, and ease of use. No blind imports—always preview and verify first.
+        </p>
+
+        <div class="row g-4">
+            <!-- Step 1 -->
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="step-circle bg-primary text-white shadow-sm">1</div>
+                    <h5 class="fw-bold mb-2">Upload &amp; Options</h5>
+                    <p class="text-muted small mb-3">
+                        Upload your Excel matrix file or click <strong>Download Template</strong> to generate a customized spreadsheet aligned with your current installed apps.
+                    </p>
+                    <div class="p-2 bg-light rounded text-start small">
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Auto-create missing roles</div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Custom role name prefix</div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Auto-detection of columns</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="step-circle bg-warning text-white shadow-sm">2</div>
+                    <h5 class="fw-bold mb-2">Preview &amp; Select</h5>
+                    <p class="text-muted small mb-3">
+                        Review the verification grid. Inspect matched user accounts, check target roles, and use toggle switches to selectively include or exclude rows.
+                    </p>
+                    <div class="p-2 bg-light rounded text-start small">
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Real-time status badges</div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> "Pilih Semua" &amp; "Batal Pilih"</div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Live counter indicators</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="step-circle bg-success text-white shadow-sm">3</div>
+                    <h5 class="fw-bold mb-2">Apply &amp; Enforce</h5>
+                    <p class="text-muted small mb-3">
+                        Click confirm to create role lines and immediately execute group calculation so menus, permissions, and record rules update on the fly.
+                    </p>
+                    <div class="p-2 bg-light rounded text-start small">
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Updates <span class="code-pill">res.users.role.line</span></div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Runs <span class="code-pill">set_groups_from_roles</span></div>
+                        <div class="text-muted"><i class="fa fa-check text-success me-1"></i> Shortcut to view updated users</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- DETAILED CORE FEATURES                                            -->
+    <!-- ================================================================= -->
     <div class="mb-5">
-        <h3 class="fw-bold text-center mb-4">Core Capabilities</h3>
+        <h3 class="fw-bold text-center mb-2">Comprehensive Feature Highlights</h3>
+        <p class="text-muted text-center mb-4" style="max-width: 680px; margin: 0 auto;">
+            Engineered with enterprise best practices to handle complex permission setups effortlessly.
+        </p>
+
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="feature-card">
                     <div class="icon-box bg-primary bg-opacity-10 text-primary">
-                        <i class="fa fa-check-square"></i>
+                        <i class="fa fa-toggle-on"></i>
                     </div>
                     <h5 class="fw-bold">Granular Selective Sync</h5>
-                    <p class="text-muted mb-0">
-                        Easily choose which specific users to update using inline toggle switches, accompanied by real-time selection counters and <em>"Pilih Semua"</em> / <em>"Batal Pilih"</em> actions.
+                    <p class="text-muted mb-0 small">
+                        Full control over which rows to process. Unchecked rows are completely untouched, allowing staged rollouts or updating specific branches without modifying other users.
                     </p>
                 </div>
             </div>
@@ -132,8 +383,8 @@
                         <i class="fa fa-file-excel"></i>
                     </div>
                     <h5 class="fw-bold">Dynamic Template Generator</h5>
-                    <p class="text-muted mb-0">
-                        Exports ready-to-fill Excel spreadsheets with dropdown validation formulas automatically aligned with your installed Odoo modules.
+                    <p class="text-muted mb-0 small">
+                        Exports ready-to-use Excel templates containing dropdown validations dynamically matched to the module categories currently installed in your database.
                     </p>
                 </div>
             </div>
@@ -144,8 +395,8 @@
                         <i class="fa fa-search"></i>
                     </div>
                     <h5 class="fw-bold">Multi-Strategy User Matching</h5>
-                    <p class="text-muted mb-0">
-                        Flexible resolution by username prefix, full email, or employee name. Cleanly handles case differences and whitespace.
+                    <p class="text-muted mb-0 small">
+                        Matches users case-insensitively using Login, Email, Full Name, or Username Prefix. Strips unwanted whitespace and prevents duplicate creations.
                     </p>
                 </div>
             </div>
@@ -155,9 +406,9 @@
                     <div class="icon-box bg-info bg-opacity-10 text-info">
                         <i class="fa fa-cogs"></i>
                     </div>
-                    <h5 class="fw-bold">Auto-Create Missing Roles</h5>
-                    <p class="text-muted mb-0">
-                        Automatically provisions new roles in <span class="code-pill">res.users.role</span> with baseline Internal User rights whenever unknown roles appear.
+                    <h5 class="fw-bold">Auto-Provision Missing Roles</h5>
+                    <p class="text-muted mb-0 small">
+                        When enabled, new roles mentioned in the spreadsheet are created automatically in <span class="code-pill">res.users.role</span> with baseline Internal User permissions attached.
                     </p>
                 </div>
             </div>
@@ -167,9 +418,9 @@
                     <div class="icon-box bg-danger bg-opacity-10 text-danger">
                         <i class="fa fa-bolt"></i>
                     </div>
-                    <h5 class="fw-bold">Instant Group Application</h5>
-                    <p class="text-muted mb-0">
-                        Triggers standard OCA security recalculation, ensuring menu items, record rules, and ACLs take effect immediately.
+                    <h5 class="fw-bold">Instant Security Recalculation</h5>
+                    <p class="text-muted mb-0 small">
+                        Triggers standard OCA <span class="code-pill">set_groups_from_roles(force=True)</span> immediately after syncing. Menus, action rights, and record rules update seamlessly.
                     </p>
                 </div>
             </div>
@@ -179,25 +430,72 @@
                     <div class="icon-box bg-secondary bg-opacity-10 text-dark">
                         <i class="fa fa-shield-alt"></i>
                     </div>
-                    <h5 class="fw-bold">Standard OCA Compliant</h5>
-                    <p class="text-muted mb-0">
-                        Built cleanly on top of the community-standard <span class="code-pill">base_user_role</span> module. 100% decoupled and customizable.
+                    <h5 class="fw-bold">OCA Ecosystem Compliant</h5>
+                    <p class="text-muted mb-0 small">
+                        Built cleanly on top of the community standard <span class="code-pill">base_user_role</span>. Works hand-in-hand with standard role expiry dates, role lines, and implied groups.
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TECHNICAL PREREQUISITES & SPECIFICATIONS -->
-    <div class="card border-0 shadow-sm p-4 mb-5 rounded-4 bg-white">
-        <h3 class="fw-bold mb-3"><i class="fa fa-info-circle text-primary me-2"></i>Technical Requirements</h3>
+    <!-- ================================================================= -->
+    <!-- USER MATCHING ALGORITHM EXPLAINED                                 -->
+    <!-- ================================================================= -->
+    <div class="section-card">
+        <h4 class="fw-bold mb-3"><i class="fa fa-sitemap text-primary me-2"></i>How the Smart User Matching Works</h4>
+        <p class="text-muted mb-3 small">
+            To ensure maximum flexibility when dealing with real-world spreadsheets from HR or IT departments, the wizard uses a 4-tier cascading matching engine:
+        </p>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="p-3 bg-light rounded-3 text-center h-100 border">
+                    <div class="fw-bold text-primary mb-1">Tier 1</div>
+                    <div class="fw-semibold small mb-1">Exact Login Match</div>
+                    <p class="text-muted mb-0" style="font-size: 12px;">Matches <span class="code-pill">login</span> case-insensitively (e.g. <code>budi.santoso</code>).</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 bg-light rounded-3 text-center h-100 border">
+                    <div class="fw-bold text-primary mb-1">Tier 2</div>
+                    <div class="fw-semibold small mb-1">Exact Email Match</div>
+                    <p class="text-muted mb-0" style="font-size: 12px;">Matches <span class="code-pill">email</span> address (e.g. <code>budi@company.com</code>).</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 bg-light rounded-3 text-center h-100 border">
+                    <div class="fw-bold text-primary mb-1">Tier 3</div>
+                    <div class="fw-semibold small mb-1">Name / Alias Match</div>
+                    <p class="text-muted mb-0" style="font-size: 12px;">Matches user's display <span class="code-pill">name</span> in Odoo contact card.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3 bg-light rounded-3 text-center h-100 border">
+                    <div class="fw-bold text-primary mb-1">Tier 4</div>
+                    <div class="fw-semibold small mb-1">Email Prefix Match</div>
+                    <p class="text-muted mb-0" style="font-size: 12px;">Extracts username prefix prior to <code>@</code> if full email differs from login.</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 highlight-box">
+            <p class="mb-0 small text-dark">
+                <strong>Safety First:</strong> If a row in Excel does not match any user in Odoo, it is flagged as <span class="badge bg-danger">Belum Ada di Odoo</span> and automatically unchecked. It will not cause errors, crashes, or unintended user record creations.
+            </p>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TECHNICAL SPECIFICATIONS                                          -->
+    <!-- ================================================================= -->
+    <div class="section-card">
+        <h3 class="fw-bold mb-3"><i class="fa fa-info-circle text-primary me-2"></i>Technical Requirements &amp; Architecture</h3>
         <div class="row g-3">
             <div class="col-md-6">
                 <div class="p-3 bg-light rounded-3">
                     <h6 class="fw-bold mb-2"><i class="fa fa-puzzle-piece text-secondary me-2"></i>Module Dependencies</h6>
                     <ul class="mb-0 text-muted small ps-3">
-                        <li><span class="code-pill">base</span> (Odoo Core)</li>
-                        <li><span class="code-pill">base_user_role</span> (OCA Server Tools)</li>
+                        <li><span class="code-pill">base</span> (Odoo Core Framework)</li>
+                        <li><span class="code-pill">base_user_role</span> (OCA Server Tools / User Roles)</li>
                     </ul>
                 </div>
             </div>
@@ -205,7 +503,7 @@
                 <div class="p-3 bg-light rounded-3">
                     <h6 class="fw-bold mb-2"><i class="fa fa-code text-secondary me-2"></i>Python Libraries</h6>
                     <ul class="mb-0 text-muted small ps-3">
-                        <li><span class="code-pill">openpyxl</span> (Standard Excel reading &amp; writing)</li>
+                        <li><span class="code-pill">openpyxl</span> (Standard spreadsheet engine for .xlsx parsing &amp; formatting)</li>
                     </ul>
                 </div>
             </div>
@@ -213,7 +511,7 @@
                 <div class="p-3 bg-light rounded-3">
                     <h6 class="fw-bold mb-2"><i class="fa fa-lock text-secondary me-2"></i>Security &amp; Permissions</h6>
                     <ul class="mb-0 text-muted small ps-3">
-                        <li>Accessible by <strong>Administration / Access Rights</strong> (<span class="code-pill">base.group_erp_manager</span>)</li>
+                        <li>Accessible exclusively by <strong>Administration / Access Rights</strong> (<span class="code-pill">base.group_erp_manager</span>)</li>
                     </ul>
                 </div>
             </div>
@@ -222,71 +520,113 @@
                     <h6 class="fw-bold mb-2"><i class="fa fa-check text-secondary me-2"></i>Compatibility</h6>
                     <ul class="mb-0 text-muted small ps-3">
                         <li>Odoo 18.0 (Community &amp; Enterprise Editions)</li>
+                        <li>Compatible with Multi-Company and Multi-Branch setups</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FREQUENTLY ASKED QUESTIONS -->
-    <div class="card border-0 shadow-sm p-4 mb-5 rounded-4 bg-white">
+    <!-- ================================================================= -->
+    <!-- FREQUENTLY ASKED QUESTIONS (FAQ)                                  -->
+    <!-- ================================================================= -->
+    <div class="section-card">
         <h3 class="fw-bold mb-4 text-center">Frequently Asked Questions (FAQ)</h3>
         <div class="accordion accordion-flush" id="faqAccordion">
-            <div class="accordion-item">
+            <div class="accordion-item border rounded-3 mb-2">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                        What happens if a user in Excel does not exist in Odoo?
+                        What happens if an employee in the Excel file is not yet registered in Odoo?
                     </button>
                 </h2>
                 <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body text-muted small">
-                        The wizard marks the user with a red <strong>"Belum Ada di Odoo"</strong> badge and unchecks the row by default. It will safely skip that row without causing import crashes or creating accidental duplicate users.
+                        The wizard flags that row with a red <strong>"Belum Ada di Odoo"</strong> badge and automatically unchecks it. The sync will safely proceed for all valid users without aborting or crashing.
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
+
+            <div class="accordion-item border rounded-3 mb-2">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        Can I sync only specific selected users instead of the entire sheet?
+                        Can I update roles only for a specific department or selected users?
                     </button>
                 </h2>
                 <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body text-muted small">
-                        Yes! In Step 2 (Preview), simply toggle off the <strong>"Pilih / Sync"</strong> switch on the users you want to exclude, or use the <em>"Batal Pilih Semua"</em> button and check only the specific users you need.
+                        Yes! In Step 2 (Preview), you can click <em>"Batal Pilih Semua"</em> to deselect everything, and then turn ON the toggle switch only for the specific users you wish to update.
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
+
+            <div class="accordion-item border rounded-3 mb-2">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                        Does this module support custom third-party apps and security groups?
+                        Does this module support third-party custom modules and security groups?
                     </button>
                 </h2>
                 <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body text-muted small">
-                        Yes. When using the <em>"Application Permission Matrix"</em> mode, the template generator dynamically scans all active module categories (<span class="code-pill">ir.module.category</span>) in your database, automatically including your custom installed modules.
+                        Yes. In <em>Application Permission Matrix</em> mode, the template generator dynamically queries <span class="code-pill">ir.module.category</span> in your database, automatically including any custom installed modules and their corresponding security groups.
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
+
+            <div class="accordion-item border rounded-3 mb-2">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                        Do users need to log out and log back in after sync?
+                        Do users need to log out and log back in for changes to take effect?
                     </button>
                 </h2>
                 <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body text-muted small">
-                        The wizard automatically executes <span class="code-pill">user.set_groups_from_roles(force=True)</span>. For active user sessions, a quick browser refresh will immediately reflect the newly updated menu items and permissions.
+                        No logout required. The wizard invokes <span class="code-pill">user.set_groups_from_roles(force=True)</span>. For currently active user sessions, a quick browser refresh (F5) will immediately display updated menus and permissions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border rounded-3 mb-2">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        Can I assign multiple roles to a single user in one spreadsheet?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-muted small">
+                        Yes. In <em>Role Assignment Matrix</em> mode, simply separate multiple role names with a comma (e.g. <code>Role Staff Penjualan, Role Staff Logistik</code>). The wizard will assign all specified roles to that user.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border rounded-3 mb-2">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                        Is this module compatible with Odoo Enterprise Edition?
+                    </button>
+                </h2>
+                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-muted small">
+                        Yes. The module is fully compatible with both Odoo 18.0 Community Edition and Odoo 18.0 Enterprise Edition on standard cloud and on-premise deployments.
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER & SUPPORT -->
+    <!-- ================================================================= -->
+    <!-- FOOTER & AUTHOR SUPPORT                                           -->
+    <!-- ================================================================= -->
     <div class="text-center py-4 text-muted border-top">
-        <p class="mb-1"><strong>User Role Sync from Excel</strong> by <strong>CV. Anugerah Khair Arkananta</strong></p>
-        <p class="small mb-0">Licensed under LGPL-3. Built for standard Odoo Community &amp; Enterprise editions.</p>
+        <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+            <span class="fw-bold text-dark">User Role Sync from Excel</span>
+            <span>•</span>
+            <span>Version 18.0.1.0.0</span>
+            <span>•</span>
+            <span>Licensed under LGPL-3</span>
+        </div>
+        <p class="small text-muted mb-0">
+            Developed &amp; Maintained by <strong>CV. Anugerah Khair Arkananta</strong>
+        </p>
     </div>
 
 </div>
