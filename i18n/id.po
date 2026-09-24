@@ -1,0 +1,475 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* user_role_sync
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-24 06:15+0000\n"
+"PO-Revision-Date: 2026-09-24 06:15+0000\n"
+"Last-Translator: CV. Anugerah Khair Arkananta\n"
+"Language-Team: Indonesian (https://www.transifex.com/odoo/teams/41243/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: user_role_sync
+#: model:ir.actions.act_window,name:user_role_sync.action_wizard_sync_user_roles
+#: model:ir.ui.menu,name:user_role_sync.menu_wizard_sync_user_roles
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Sync Roles from Excel"
+msgstr "Sinkronisasi Role dari Excel"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Synchronize User Roles from Excel"
+msgstr "Sinkronisasi Hak Akses Role User dari Excel"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Step 1: Upload Role Matrix File"
+msgstr "Langkah 1: Upload File Matriks Role"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Upload your Excel spreadsheet. The system will scan the rows and present a <strong>Verification Preview Table</strong> before applying changes to the database."
+msgstr "Upload file Excel Anda. Sistem akan memindai data dan menampilkan <strong>Tabel Preview Pengecekan</strong> sebelum diterapkan ke database."
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download Excel Template"
+msgstr "Download Template Excel"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Excel Spreadsheet File"
+msgstr "File Matriks Excel"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download dynamic template: "
+msgstr "Download format template Excel dinamis: "
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download Template (.xlsx)"
+msgstr "Download Template Excel (.xlsx)"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Sync Settings"
+msgstr "Pengaturan Sinkronisasi"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Step 2: Verification &amp; User Selection"
+msgstr "Langkah 2: Pengecekan &amp; Pemilihan User"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select the user rows to synchronize, then click <strong>\"Confirm &amp; Apply Roles\"</strong>."
+msgstr "Centang baris user yang ingin disinkronkan, lalu klik <strong>\"Konfirmasi &amp; Terapkan Role\"</strong>."
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Total Rows"
+msgstr "Total Baris"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Selected Users"
+msgstr "User Dipilih"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Matched in Odoo"
+msgstr "Cocok di Odoo"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Unregistered Users"
+msgstr "Belum Terdaftar"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select All Matched"
+msgstr "Pilih Semua User Cocok"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Deselect All"
+msgstr "Batal Pilih Semua"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Tip: You can manually select a user in the <strong>Matched User in Odoo</strong> column if names differ."
+msgstr "Tips: Anda dapat memilih user manual pada kolom <strong>User Cocok di Odoo</strong> jika nama akun berbeda."
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select / Sync"
+msgstr "Pilih / Sync"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Name in Excel"
+msgstr "Nama di Excel"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Login / Email"
+msgstr "Login / Email"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Account Status"
+msgstr "Status Akun"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Job / Dept"
+msgstr "Jabatan / Dept"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Target Roles"
+msgstr "Target Role Odoo"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Module Permissions"
+msgstr "Ringkasan Izin Modul"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Active Role"
+msgstr "Role Aktif"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Load &amp; Preview Data"
+msgstr "Muat &amp; Cek Preview Data"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Confirm &amp; Apply Roles"
+msgstr "Konfirmasi &amp; Terapkan Role"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Re-upload File"
+msgstr "Upload File Ulang"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "View Synchronized Users"
+msgstr "Lihat Data di Users (Tab User Roles)"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Cancel"
+msgstr "Batal"
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Close"
+msgstr "Tutup"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__file_excel
+msgid "Excel File (.xlsx)"
+msgstr "File Excel (.xlsx)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__filename
+msgid "File Name"
+msgstr "Nama File"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__template_type
+msgid "Template Format"
+msgstr "Format Template"
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__template_type
+msgid "Choose whether to generate template based on existing Roles or dynamically discovered installed Applications."
+msgstr "Pilih apakah ingin menghasilkan template berdasarkan Role yang ada atau berdasarkan modul aplikasi yang terpasang."
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__template_type__roles_list
+msgid "Role Assignment Matrix (Standard User-to-Roles)"
+msgstr "Matriks Penugasan Role (Standar User-ke-Roles)"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__template_type__app_matrix
+msgid "Application Permission Matrix (Auto-detect Installed Apps)"
+msgstr "Matriks Hak Akses Aplikasi (Deteksi Otomatis Aplikasi Aktif)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__auto_create_role
+msgid "Auto-create Missing Roles"
+msgstr "Buat Role Otomatis Jika Belum Ada"
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__auto_create_role
+msgid "If enabled, roles found in the spreadsheet that do not exist yet in Odoo will be automatically created."
+msgstr "Jika diaktifkan, role pada spreadsheet yang belum ada di Odoo akan dibuat secara otomatis."
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__auto_create_user
+msgid "Auto-create Missing Users"
+msgstr "Buat Akun User Baru Otomatis"
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__auto_create_user
+msgid "If enabled, users found in Excel that do not exist yet in Odoo will be automatically created."
+msgstr "Jika diaktifkan, user di Excel yang belum terdaftar di database Odoo akan otomatis dibuatkan akun login baru."
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__default_role_prefix
+msgid "Auto Role Prefix"
+msgstr "Awalan (Prefix) Nama Role Otomatis"
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__default_role_prefix
+msgid "Prefix used when creating dynamic roles based on job/department or permissions."
+msgstr "Awalan yang digunakan saat membuat role otomatis berdasarkan jabatan/departemen atau hak akses."
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__role_logistic_id
+msgid "Role Logistic (Optional)"
+msgstr "Role Logistic (Opsional)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__role_staff_pc_id
+msgid "Role Staff & PC (Optional)"
+msgstr "Role Staff & PC (Opsional)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__line_ids
+msgid "Preview Data Lines"
+msgstr "Baris Preview Data"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__total_rows
+msgid "Total Rows"
+msgstr "Total Baris"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__matched_rows
+msgid "Matched Users"
+msgstr "User Ditemukan"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__missing_rows
+msgid "Missing Users"
+msgstr "User Belum Ada"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__selected_rows
+msgid "Selected"
+msgstr "Dipilih"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__result_summary
+msgid "Sync Result Summary"
+msgstr "Ringkasan Hasil Sinkronisasi"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__state
+msgid "Status"
+msgstr "Status"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__draft
+msgid "Upload File"
+msgstr "Upload File"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__preview
+msgid "Check & Verify"
+msgstr "Pengecekan & Verifikasi"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__done
+msgid "Done"
+msgstr "Selesai"
+
+#. module: user_role_sync
+#: model:ir.model,name:user_role_sync.model_wizard_sync_user_roles
+msgid "Wizard Synchronize User Roles from Excel"
+msgstr "Wizard Sinkronisasi Hak Akses Role User dari Excel"
+
+#. module: user_role_sync
+#: model:ir.model,name:user_role_sync.model_wizard_sync_user_roles_line
+msgid "User Role Sync Preview Line"
+msgstr "Baris Preview Sinkronisasi Role User"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__wizard_id
+msgid "Wizard Parent"
+msgstr "Wizard Induk"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__row_index
+msgid "Row"
+msgstr "Baris"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__user_id
+msgid "Matched User in Odoo"
+msgstr "User Cocok di Odoo"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__name_excel
+msgid "Name (Excel)"
+msgstr "Nama (Excel)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__login_excel
+msgid "Email / Login (Excel)"
+msgstr "Email / Login (Excel)"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__job_excel
+msgid "Job / Dept"
+msgstr "Jabatan / Dept"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__user_status
+msgid "User Status"
+msgstr "Status User"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__matched
+msgid "Found in Odoo"
+msgstr "Ditemukan di Odoo"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__to_create
+msgid "To Be Created"
+msgstr "Akan Dibuat Otomatis"
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__missing
+msgid "Not in Odoo"
+msgstr "Belum Ada di Odoo"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__is_selected
+msgid "Select"
+msgstr "Pilih"
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles_line__is_selected
+msgid "Check to synchronize this user to Odoo."
+msgstr "Centang untuk menyinkronkan user ini ke Odoo."
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__role_names
+msgid "Target Role(s)"
+msgstr "Target Role Odoo"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__permissions_summary
+msgid "Dynamic Module Permissions"
+msgstr "Izin Modul Dinamis"
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__is_enabled
+msgid "Active Role"
+msgstr "Role Aktif"
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "The 'openpyxl' Python library is required to generate templates."
+msgstr "Library Python 'openpyxl' dibutuhkan untuk menghasilkan template."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Please select an Excel file first."
+msgstr "Harap pilih file Excel terlebih dahulu."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "The 'openpyxl' Python library is required to read Excel files."
+msgstr "Library Python 'openpyxl' dibutuhkan untuk membaca file Excel."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"Failed to read Excel file. Please ensure the .xlsx format is valid.\n"
+"Error: %s"
+msgstr ""
+"Gagal membaca file Excel. Pastikan format file .xlsx valid.\n"
+"Error: %s"
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "No valid user data found in the Excel file."
+msgstr "Tidak ada data baris user yang valid di dalam file Excel."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "No data to synchronize. Please load an Excel file first."
+msgstr "Tidak ada data yang dapat disinkronkan. Silakan muat file Excel terlebih dahulu."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"No user rows selected for synchronization.\n"
+"Please select at least one matched user row, assign a user manually, or enable 'Auto-create Missing Users'."
+msgstr ""
+"Tidak ada baris user yang dipilih untuk disinkronkan.\n"
+"Silakan centang minimal satu baris user yang cocok, pilih user manual pada kolom 'User Cocok di Odoo', atau aktifkan opsi 'Buat Akun User Baru Otomatis'."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"No user accounts were successfully processed.\n"
+"Please make sure users are registered in Odoo, select them manually in the table, or enable 'Auto-create Missing Users'."
+msgstr ""
+"Tidak ada akun user yang berhasil diproses.\n"
+"Pastikan user sudah terdaftar di Odoo, pilih user secara manual pada tabel, atau aktifkan opsi 'Buat Akun User Baru Otomatis'."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Role Synchronization Successfully Applied!"
+msgstr "Sinkronisasi Role Berhasil Diterapkan!"
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Total <strong>%s Users</strong> have been synchronized and their roles are active."
+msgstr "Total <strong>%s User</strong> berhasil disinkronkan dan hak aksesnya telah aktif pada tab <strong>User Roles</strong>."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "<br/><em>(Including <strong>%s New User Accounts</strong> created automatically)</em>"
+msgstr "<br/><em>(Termasuk <strong>%s Akun User Baru</strong> yang dibuat otomatis)</em>"
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "You can review the updated roles under <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> (User Roles tab)."
+msgstr "Anda dapat melihat hasil pembaruan langsung pada menu <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> (Tab <em>User Roles</em>)."
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Successfully Synchronized Users"
+msgstr "User yang Berhasil Disinkronkan"

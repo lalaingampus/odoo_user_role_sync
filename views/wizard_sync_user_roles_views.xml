@@ -7,7 +7,7 @@
         <field name="model">wizard.sync.user.roles</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Sinkronisasi Role Akses User dari Excel">
+            <form string="Synchronize User Roles from Excel">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,preview,done" />
                 </header>
@@ -18,9 +18,9 @@
                     <div attrs="{'invisible': [('state', '!=', 'draft')]}">
                         <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
                             <div>
-                                <h5 class="alert-heading mb-1"><i class="fa fa-info-circle me-1" /> Langkah 1: Upload File Matriks Role</h5>
+                                <h5 class="alert-heading mb-1"><i class="fa fa-info-circle me-1" /> Step 1: Upload Role Matrix File</h5>
                                 <p class="mb-0">
-                                    Upload file Excel Anda. Sistem akan memindai data dan menampilkan <strong>Tabel Preview Pengecekan</strong> sebelum diterapkan ke database.
+                                    Upload your Excel spreadsheet. The system will scan the rows and present a <strong>Verification Preview Table</strong> before applying changes to the database.
                                 </p>
                             </div>
                             <div>
@@ -35,31 +35,31 @@
                         </div>
 
                         <group>
-                            <group string="File Matriks Excel">
+                            <group string="Excel Spreadsheet File">
                                 <field name="file_excel" filename="filename" widget="binary" />
                                 <field name="filename" invisible="1" />
                                 <div class="mt-2 text-muted">
-                                    <span>Download format template Excel dinamis: </span>
+                                    <span>Download dynamic template: </span>
                                     <button
                                         name="action_download_template"
-                                        string="Download Template Excel (.xlsx)"
+                                        string="Download Template (.xlsx)"
                                         type="object"
                                         icon="fa-download"
                                         class="btn btn-link p-0 align-baseline"
                                     />
                                 </div>
                             </group>
-                            <group string="Pengaturan Sinkronisasi">
+                            <group string="Sync Settings">
                                 <field name="template_type" widget="radio" />
                                 <field name="auto_create_role" />
                                 <field name="auto_create_user" />
-                                <field name="default_role_prefix" placeholder="Contoh: Role -" />
+                                <field name="default_role_prefix" placeholder="e.g. Role -" />
                             </group>
                         </group>
                     </div>
 
                     <!-- ========================================================= -->
-                    <!-- STEP 2: PREVIEW & VERIFIKASI (STATE = PREVIEW) -->
+                    <!-- STEP 2: PREVIEW & VERIFICATION (STATE = PREVIEW) -->
                     <!-- ========================================================= -->
                     <div attrs="{'invisible': [('state', '!=', 'preview')]}">
                         <div class="alert alert-info py-2 px-3 shadow-sm rounded mb-3 border" style="background-color: #e7f1ff; border-color: #b6d4fe !important; color: #084298;" role="alert">
@@ -67,10 +67,10 @@
                                 <i class="fa fa-check-square fa-2x text-primary me-3"/>
                                 <div>
                                     <h6 class="alert-heading mb-0 fw-bold" style="color: #084298;">
-                                        Langkah 2: Pengecekan &amp; Pemilihan User
+                                        Step 2: Verification &amp; User Selection
                                     </h6>
                                     <div style="color: #495057; font-size: 13px;">
-                                        Centang baris user yang ingin disinkronkan, lalu klik <strong>"Konfirmasi &amp; Terapkan Role"</strong>.
+                                        Select the user rows to synchronize, then click <strong>"Confirm &amp; Apply Roles"</strong>.
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                             <div class="col-3">
                                 <div class="p-2 rounded border shadow-sm" style="background-color: #f8f9fa; border-color: #ced4da !important;">
                                     <div style="font-size: 11px; font-weight: 700; color: #495057; text-transform: uppercase; letter-spacing: 0.5px;">
-                                        <i class="fa fa-list me-1 text-secondary"/> Total Baris
+                                        <i class="fa fa-list me-1 text-secondary"/> Total Rows
                                     </div>
                                     <div style="font-size: 24px; font-weight: 800; color: #212529; line-height: 1.2; margin-top: 4px;">
                                         <field name="total_rows" readonly="1" nolabel="1"/>
@@ -91,7 +91,7 @@
                             <div class="col-3">
                                 <div class="p-2 rounded border shadow-sm" style="background-color: #e8f4fd; border-color: #9ec5fe !important;">
                                     <div style="font-size: 11px; font-weight: 700; color: #084298; text-transform: uppercase; letter-spacing: 0.5px;">
-                                        <i class="fa fa-check-square me-1 text-primary"/> User Dipilih
+                                        <i class="fa fa-check-square me-1 text-primary"/> Selected Users
                                     </div>
                                     <div style="font-size: 24px; font-weight: 800; color: #0d6efd; line-height: 1.2; margin-top: 4px;">
                                         <field name="selected_rows" readonly="1" nolabel="1"/>
@@ -101,7 +101,7 @@
                             <div class="col-3">
                                 <div class="p-2 rounded border shadow-sm" style="background-color: #e8f8f0; border-color: #a3cfbb !important;">
                                     <div style="font-size: 11px; font-weight: 700; color: #0f5132; text-transform: uppercase; letter-spacing: 0.5px;">
-                                        <i class="fa fa-check-circle me-1 text-success"/> Cocok di Odoo
+                                        <i class="fa fa-check-circle me-1 text-success"/> Matched in Odoo
                                     </div>
                                     <div style="font-size: 24px; font-weight: 800; color: #198754; line-height: 1.2; margin-top: 4px;">
                                         <field name="matched_rows" readonly="1" nolabel="1"/>
@@ -111,7 +111,7 @@
                             <div class="col-3">
                                 <div class="p-2 rounded border shadow-sm" style="background-color: #fde8e8; border-color: #f1aeb5 !important;">
                                     <div style="font-size: 11px; font-weight: 700; color: #842029; text-transform: uppercase; letter-spacing: 0.5px;">
-                                        <i class="fa fa-exclamation-triangle me-1 text-danger"/> Belum Terdaftar
+                                        <i class="fa fa-exclamation-triangle me-1 text-danger"/> Unregistered Users
                                     </div>
                                     <div style="font-size: 24px; font-weight: 800; color: #dc3545; line-height: 1.2; margin-top: 4px;">
                                         <field name="missing_rows" readonly="1" nolabel="1"/>
@@ -123,42 +123,42 @@
                         <!-- Quick Selection Toolbar -->
                         <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                             <div class="btn-group btn-group-sm">
-                                <button name="action_select_all" string="Pilih Semua User Cocok" type="object" icon="fa-check-square-o" class="btn btn-primary btn-sm fw-bold px-3" />
-                                <button name="action_deselect_all" string="Batal Pilih Semua" type="object" icon="fa-square-o" class="btn btn-outline-secondary btn-sm px-3" />
+                                <button name="action_select_all" string="Select All Matched" type="object" icon="fa-check-square-o" class="btn btn-primary btn-sm fw-bold px-3" />
+                                <button name="action_deselect_all" string="Deselect All" type="object" icon="fa-square-o" class="btn btn-outline-secondary btn-sm px-3" />
                             </div>
                             <span class="text-muted small">
-                                <i class="fa fa-info-circle me-1 text-primary"/>Tips: Anda dapat memilih user manual pada kolom <strong>User di Odoo</strong> jika nama akun berbeda.
+                                <i class="fa fa-info-circle me-1 text-primary"/>Tip: You can manually select a user in the <strong>Matched User in Odoo</strong> column if names differ.
                             </span>
                         </div>
 
                         <field name="line_ids">
                             <tree editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-info="user_status == 'to_create'" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
-                                <field name="is_selected" widget="boolean_toggle" string="Pilih / Sync" />
-                                <field name="row_index" readonly="1" string="Baris" optional="show" />
-                                <field name="name_excel" readonly="1" string="Nama di Excel" />
+                                <field name="is_selected" widget="boolean_toggle" string="Select / Sync" />
+                                <field name="row_index" readonly="1" string="Row" optional="show" />
+                                <field name="name_excel" readonly="1" string="Name in Excel" />
                                 <field name="login_excel" readonly="1" string="Login / Email" />
-                                <field name="user_id" string="User di Odoo" />
-                                <field name="user_status" readonly="1" widget="badge" decoration-success="user_status == 'matched'" decoration-info="user_status == 'to_create'" decoration-danger="user_status == 'missing'" string="Status Akun" />
-                                <field name="job_excel" readonly="1" string="Jabatan" optional="show" />
-                                <field name="role_names" readonly="1" string="Target Role Odoo" />
-                                <field name="permissions_summary" readonly="1" string="Ringkasan Izin Modul" optional="hide" />
-                                <field name="is_enabled" widget="boolean_toggle" string="Role Aktif" />
+                                <field name="user_id" string="User in Odoo" />
+                                <field name="user_status" readonly="1" widget="badge" decoration-success="user_status == 'matched'" decoration-info="user_status == 'to_create'" decoration-danger="user_status == 'missing'" string="Account Status" />
+                                <field name="job_excel" readonly="1" string="Job / Dept" optional="show" />
+                                <field name="role_names" readonly="1" string="Target Roles" />
+                                <field name="permissions_summary" readonly="1" string="Module Permissions" optional="hide" />
+                                <field name="is_enabled" widget="boolean_toggle" string="Active Role" />
                             </tree>
                         </field>
                     </div>
 
                     <!-- ========================================================= -->
-                    <!-- STEP 3: HASIL SELESAI (STATE = DONE) -->
+                    <!-- STEP 3: RESULT SUMMARY (STATE = DONE) -->
                     <!-- ========================================================= -->
                     <div attrs="{'invisible': [('state', '!=', 'done')]}">
                         <field name="result_summary" widget="html" nolabel="1" />
                     </div>
                 </sheet>
                 <footer>
-                    <!-- Tombol Step 1 -->
+                    <!-- Step 1 Buttons -->
                     <button
                         name="action_load_preview"
-                        string="Muat &amp; Cek Preview Data"
+                        string="Load &amp; Preview Data"
                         type="object"
                         class="btn-primary"
                         attrs="{'invisible': [('state', '!=', 'draft')]}"
@@ -172,46 +172,46 @@
                         attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
                     <button
-                        string="Batal"
+                        string="Cancel"
                         class="btn-secondary"
                         special="cancel"
                         attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
 
-                    <!-- Tombol Step 2 -->
+                    <!-- Step 2 Buttons -->
                     <button
                         name="action_apply_sync"
-                        string="Konfirmasi &amp; Terapkan Role"
+                        string="Confirm &amp; Apply Roles"
                         type="object"
                         class="btn-success"
                         attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
                     <button
                         name="action_back_to_upload"
-                        string="Upload File Ulang"
+                        string="Re-upload File"
                         type="object"
                         icon="fa-arrow-left"
                         class="btn-secondary"
                         attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
                     <button
-                        string="Batal"
+                        string="Cancel"
                         class="btn-secondary"
                         special="cancel"
                         attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
 
-                    <!-- Tombol Step 3 -->
+                    <!-- Step 3 Buttons -->
                     <button
                         name="action_view_updated_users"
-                        string="Lihat Data di Users (Tab User Roles)"
+                        string="View Synchronized Users"
                         type="object"
                         class="btn-primary"
                         icon="fa-users"
                         attrs="{'invisible': [('state', '!=', 'done')]}"
                     />
                     <button
-                        string="Tutup"
+                        string="Close"
                         class="btn-secondary"
                         special="cancel"
                         attrs="{'invisible': [('state', '!=', 'done')]}"

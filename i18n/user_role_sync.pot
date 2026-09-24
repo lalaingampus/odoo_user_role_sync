@@ -1,0 +1,469 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* user_role_sync
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-24 06:15+0000\n"
+"PO-Revision-Date: 2026-09-24 06:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: \n"
+
+#. module: user_role_sync
+#: model:ir.actions.act_window,name:user_role_sync.action_wizard_sync_user_roles
+#: model:ir.ui.menu,name:user_role_sync.menu_wizard_sync_user_roles
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Sync Roles from Excel"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Synchronize User Roles from Excel"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Step 1: Upload Role Matrix File"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Upload your Excel spreadsheet. The system will scan the rows and present a <strong>Verification Preview Table</strong> before applying changes to the database."
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download Excel Template"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Excel Spreadsheet File"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download dynamic template: "
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Download Template (.xlsx)"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Sync Settings"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Step 2: Verification &amp; User Selection"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select the user rows to synchronize, then click <strong>\"Confirm &amp; Apply Roles\"</strong>."
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Total Rows"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Selected Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Matched in Odoo"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Unregistered Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select All Matched"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Deselect All"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Tip: You can manually select a user in the <strong>Matched User in Odoo</strong> column if names differ."
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Select / Sync"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Name in Excel"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Login / Email"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Account Status"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Job / Dept"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Target Roles"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Module Permissions"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Active Role"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Load &amp; Preview Data"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Confirm &amp; Apply Roles"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Re-upload File"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "View Synchronized Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Cancel"
+msgstr ""
+
+#. module: user_role_sync
+#: model_terms:ir.ui.view,arch_db:user_role_sync.view_wizard_sync_user_roles_form
+msgid "Close"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__file_excel
+msgid "Excel File (.xlsx)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__filename
+msgid "File Name"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__template_type
+msgid "Template Format"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__template_type
+msgid "Choose whether to generate template based on existing Roles or dynamically discovered installed Applications."
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__template_type__roles_list
+msgid "Role Assignment Matrix (Standard User-to-Roles)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__template_type__app_matrix
+msgid "Application Permission Matrix (Auto-detect Installed Apps)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__auto_create_role
+msgid "Auto-create Missing Roles"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__auto_create_role
+msgid "If enabled, roles found in the spreadsheet that do not exist yet in Odoo will be automatically created."
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__auto_create_user
+msgid "Auto-create Missing Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__auto_create_user
+msgid "If enabled, users found in Excel that do not exist yet in Odoo will be automatically created."
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__default_role_prefix
+msgid "Auto Role Prefix"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles__default_role_prefix
+msgid "Prefix used when creating dynamic roles based on job/department or permissions."
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__role_logistic_id
+msgid "Role Logistic (Optional)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__role_staff_pc_id
+msgid "Role Staff & PC (Optional)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__line_ids
+msgid "Preview Data Lines"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__total_rows
+msgid "Total Rows"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__matched_rows
+msgid "Matched Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__missing_rows
+msgid "Missing Users"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__selected_rows
+msgid "Selected"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__result_summary
+msgid "Sync Result Summary"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles__state
+msgid "Status"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__draft
+msgid "Upload File"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__preview
+msgid "Check & Verify"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles__state__done
+msgid "Done"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model,name:user_role_sync.model_wizard_sync_user_roles
+msgid "Wizard Synchronize User Roles from Excel"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model,name:user_role_sync.model_wizard_sync_user_roles_line
+msgid "User Role Sync Preview Line"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__wizard_id
+msgid "Wizard Parent"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__row_index
+msgid "Row"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__user_id
+msgid "Matched User in Odoo"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__name_excel
+msgid "Name (Excel)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__login_excel
+msgid "Email / Login (Excel)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__job_excel
+msgid "Job / Dept"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__user_status
+msgid "User Status"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__matched
+msgid "Found in Odoo"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__to_create
+msgid "To Be Created"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields.selection,name:user_role_sync.selection__wizard_sync_user_roles_line__user_status__missing
+msgid "Not in Odoo"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__is_selected
+msgid "Select"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,help:user_role_sync.field_wizard_sync_user_roles_line__is_selected
+msgid "Check to synchronize this user to Odoo."
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__role_names
+msgid "Target Role(s)"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__permissions_summary
+msgid "Dynamic Module Permissions"
+msgstr ""
+
+#. module: user_role_sync
+#: model:ir.model.fields,field_description:user_role_sync.field_wizard_sync_user_roles_line__is_enabled
+msgid "Active Role"
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "The 'openpyxl' Python library is required to generate templates."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Please select an Excel file first."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "The 'openpyxl' Python library is required to read Excel files."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"Failed to read Excel file. Please ensure the .xlsx format is valid.\n"
+"Error: %s"
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "No valid user data found in the Excel file."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "No data to synchronize. Please load an Excel file first."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"No user rows selected for synchronization.\n"
+"Please select at least one matched user row, assign a user manually, or enable 'Auto-create Missing Users'."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid ""
+"No user accounts were successfully processed.\n"
+"Please make sure users are registered in Odoo, select them manually in the table, or enable 'Auto-create Missing Users'."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Role Synchronization Successfully Applied!"
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Total <strong>%s Users</strong> have been synchronized and their roles are active."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "<br/><em>(Including <strong>%s New User Accounts</strong> created automatically)</em>"
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "You can review the updated roles under <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> (User Roles tab)."
+msgstr ""
+
+#. module: user_role_sync
+#: code:addons/user_role_sync/wizards/wizard_sync_user_roles.py:0
+#, python-format
+msgid "Successfully Synchronized Users"
+msgstr ""
