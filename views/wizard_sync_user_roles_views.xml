@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Spektra Solusindo
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html). -->
+<odoo>
+    <record id="view_wizard_sync_user_roles_form" model="ir.ui.view">
+        <field name="name">wizard.sync.user.roles.form</field>
+        <field name="model">wizard.sync.user.roles</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Sinkronisasi Role Akses User dari Excel">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,preview,done" />
+                </header>
+                <sheet>
+                    <!-- ========================================================= -->
+                    <!-- STEP 1: UPLOAD FILE (STATE = DRAFT) -->
+                    <!-- ========================================================= -->
+                    <div invisible="state != 'draft'">
+                        <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
+                            <div>
+                                <h5 class="alert-heading mb-1"><i class="fa fa-info-circle me-1" /> Langkah 1: Upload File Matriks Role</h5>
+                                <p class="mb-0">
+                                    Upload file Excel Anda. Sistem akan memindai data dan menampilkan <strong>Tabel Preview Pengecekan</strong> sebelum diterapkan ke database.
+                                </p>
+                            </div>
+                            <div>
+                                <button
+                                    name="action_download_template"
+                                    string="Download Excel Template"
+                                    type="object"
+                                    icon="fa-download"
+                                    class="btn btn-outline-primary btn-sm"
+                                />
+                            </div>
+                        </div>
+
+                        <group>
+                            <group string="File Matriks Excel">
+                                <field name="file_excel" filename="filename" widget="binary" />
+                                <field name="filename" invisible="1" />
+                                <div class="mt-2 text-muted">
+                                    <span>Download format template Excel dinamis: </span>
+                                    <button
+                                        name="action_download_template"
+                                        string="Download Template Excel (.xlsx)"
+                                        type="object"
+                                        icon="fa-download"
+                                        class="btn btn-link p-0 align-baseline"
+                                    />
+                                </div>
+                            </group>
+                            <group string="Pengaturan Sinkronisasi">
+                                <field name="template_type" widget="radio" />
+                                <field name="auto_create_role" />
+                                <field name="default_role_prefix" placeholder="Contoh: Role -" />
+                            </group>
+                        </group>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- STEP 2: PREVIEW & VERIFIKASI (STATE = PREVIEW) -->
+                    <!-- ========================================================= -->
+                    <div invisible="state != 'preview'">
+                        <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+                            <div>
+                                <h5 class="alert-heading mb-1"><i class="fa fa-search me-1" /> Langkah 2: Pengecekan Hasil Analisis Excel</h5>
+                                <p class="mb-0">
+                                    Periksa tabel di bawah ini. Pastikan user dan role yang terdeteksi sudah sesuai. Jika sudah benar, klik tombol <strong>"Konfirmasi &amp; Terapkan Role"</strong>.
+                                </p>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-primary fs-6 me-1"><field name="total_rows" nolabel="1" /> Total</span>
+                                <span class="badge bg-success fs-6 me-1"><field name="matched_rows" nolabel="1" /> Cocok di Odoo</span>
+                                <span class="badge bg-danger fs-6" invisible="missing_rows == 0"><field name="missing_rows" nolabel="1" /> Belum Terdaftar</span>
+                            </div>
+                        </div>
+
+                        <field name="line_ids" readonly="1">
+                            <list decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'">
+                                <field name="row_index" string="Baris" />
+                                <field name="name_excel" string="Nama di Excel" />
+                                <field name="login_excel" string="Login / Email" />
+                                <field name="job_excel" string="Jabatan" />
+                                <field name="user_id" string="User di Odoo" />
+                                <field name="user_status" widget="badge" decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'" string="Status Akun" />
+                                <field name="role_names" string="Target Role Odoo" />
+                                <field name="permissions_summary" string="Ringkasan Izin Modul" />
+                                <field name="is_enabled" widget="boolean_toggle" string="Aktif" />
+                            </list>
+                        </field>
+                    </div>
+
+                    <!-- ========================================================= -->
+                    <!-- STEP 3: HASIL SELESAI (STATE = DONE) -->
+                    <!-- ========================================================= -->
+                    <div invisible="state != 'done'">
+                        <field name="result_summary" widget="html" nolabel="1" />
+                    </div>
+                </sheet>
+                <footer>
+                    <!-- Tombol Step 1 -->
+                    <button
+                        name="action_load_preview"
+                        string="Muat &amp; Cek Preview Data"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="action_download_template"
+                        string="Download Template Excel"
+                        type="object"
+                        icon="fa-download"
+                        class="btn btn-secondary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        string="Batal"
+                        class="btn-secondary"
+                        special="cancel"
+                        invisible="state != 'draft'"
+                    />
+
+                    <!-- Tombol Step 2 -->
+                    <button
+                        name="action_apply_sync"
+                        string="Konfirmasi &amp; Terapkan Role"
+                        type="object"
+                        class="btn-success"
+                        invisible="state != 'preview'"
+                    />
+                    <button
+                        name="action_back_to_upload"
+                        string="Upload File Ulang"
+                        type="object"
+                        icon="fa-arrow-left"
+                        class="btn-secondary"
+                        invisible="state != 'preview'"
+                    />
+                    <button
+                        string="Batal"
+                        class="btn-secondary"
+                        special="cancel"
+                        invisible="state != 'preview'"
+                    />
+
+                    <!-- Tombol Step 3 -->
+                    <button
+                        name="action_view_updated_users"
+                        string="Lihat Data di Users (Tab User Roles)"
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-users"
+                        invisible="state != 'done'"
+                    />
+                    <button
+                        string="Tutup"
+                        class="btn-secondary"
+                        special="cancel"
+                        invisible="state != 'done'"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_sync_user_roles" model="ir.actions.act_window">
+        <field name="name">Sync Roles from Excel</field>
+        <field name="res_model">wizard.sync.user.roles</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_sync_user_roles_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_wizard_sync_user_roles"
+        name="Sync Roles from Excel"
+        parent="base.menu_users"
+        action="action_wizard_sync_user_roles"
+        sequence="60"
+        groups="base.group_erp_manager"
+    />
+</odoo>
