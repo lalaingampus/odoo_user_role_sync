@@ -53,9 +53,9 @@ class WizardSyncUserRoles(models.TransientModel):
         help="If enabled, roles found in the spreadsheet that do not exist yet in Odoo will be automatically created.",
     )
     auto_create_user = fields.Boolean(
-        string="Auto-create Missing Users",
+        string="Auto-create Missing Users (Buat Akun User Baru Otomatis)",
         default=False,
-        help="If enabled, users in Excel that are not yet registered in Odoo will be automatically created as new users.",
+        help="Jika diaktifkan, data user di Excel yang belum terdaftar di database Odoo akan otomatis dibuatkan akun login res.users baru.",
     )
 
     default_role_prefix = fields.Char(
