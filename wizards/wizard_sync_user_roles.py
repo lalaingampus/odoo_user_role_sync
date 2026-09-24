@@ -52,6 +52,11 @@ class WizardSyncUserRoles(models.TransientModel):
         default=True,
         help="If enabled, roles found in the spreadsheet that do not exist yet in Odoo will be automatically created.",
     )
+    auto_create_user = fields.Boolean(
+        string="Auto-create Missing Users (Buat Akun User Baru Otomatis)",
+        default=False,
+        help="Jika diaktifkan, data user di Excel yang belum terdaftar di database Odoo akan otomatis dibuatkan akun login res.users baru.",
+    )
 
     default_role_prefix = fields.Char(
         string="Auto Role Prefix",
@@ -78,16 +83,16 @@ class WizardSyncUserRoles(models.TransientModel):
         string="Total Baris",
         compute="_compute_counts",
     )
-    selected_rows = fields.Integer(
-        string="User Dipilih",
-        compute="_compute_counts",
-    )
     matched_rows = fields.Integer(
         string="User Ditemukan",
         compute="_compute_counts",
     )
     missing_rows = fields.Integer(
         string="User Belum Ada",
+        compute="_compute_counts",
+    )
+    selected_rows = fields.Integer(
+        string="Dipilih",
         compute="_compute_counts",
     )
 
@@ -105,13 +110,13 @@ class WizardSyncUserRoles(models.TransientModel):
         default="draft",
     )
 
-    @api.depends("line_ids", "line_ids.user_status", "line_ids.is_selected")
+    @api.depends("line_ids", "line_ids.user_status", "line_ids.is_selected", "line_ids.user_id")
     def _compute_counts(self):
         for rec in self:
             rec.total_rows = len(rec.line_ids)
-            rec.matched_rows = len(rec.line_ids.filtered(lambda l: l.user_status == "matched"))
-            rec.missing_rows = len(rec.line_ids.filtered(lambda l: l.user_status == "missing"))
-            rec.selected_rows = len(rec.line_ids.filtered(lambda l: l.is_selected and l.user_status == "matched"))
+            rec.matched_rows = len(rec.line_ids.filtered(lambda l: l.user_status == "matched" or l.user_id))
+            rec.missing_rows = len(rec.line_ids.filtered(lambda l: l.user_status in ["missing", "to_create"] and not l.user_id))
+            rec.selected_rows = len(rec.line_ids.filtered(lambda l: l.is_selected and (l.user_id or (rec.auto_create_user and (l.name_excel or l.login_excel)))))
 
     def _get_active_app_categories(self):
         """Mendeteksi seluruh kategori aplikasi/modul yang aktif di database ini secara dinamis."""
@@ -442,27 +447,55 @@ class WizardSyncUserRoles(models.TransientModel):
                 else:
                     detected_roles = [f"{self.default_role_prefix} Standard User".strip()]
 
-            # Cari user di Odoo
-            user = User.search(
-                [
-                    "|",
-                    "|",
-                    ("login", "=ilike", user_login),
-                    ("email", "=ilike", user_login),
-                    ("name", "=ilike", user_name),
-                ],
-                limit=1,
-            )
-            if not user and user_login:
-                short_login = user_login.split("@")[0]
-                user = User.search([("login", "=ilike", short_login)], limit=1)
+            # Cari user di Odoo dengan multi-strategi pencarian
+            user = False
+            UserCtx = User.with_context(active_test=False)
 
-            user_status = "matched" if user else "missing"
+            # 1. Exact match Login, Email, atau Name
+            domain = []
+            if user_login:
+                domain.extend([("login", "=ilike", user_login), ("email", "=ilike", user_login)])
+            if user_name:
+                domain.append(("name", "=ilike", user_name))
+            
+            if domain:
+                if len(domain) > 1:
+                    full_domain = ["|"] * (len(domain) - 1) + domain
+                else:
+                    full_domain = domain
+                user = UserCtx.search(full_domain, limit=1)
+
+            # 2. Match short login (bagian sebelum @ pada email)
+            if not user and user_login and "@" in user_login:
+                short_login = user_login.split("@")[0].strip()
+                user = UserCtx.search([
+                    "|",
+                    "|",
+                    ("login", "=ilike", short_login),
+                    ("email", "=ilike", short_login),
+                    ("name", "=ilike", short_login),
+                ], limit=1)
+
+            # 3. Match login berdasarkan nama atau sebaliknya
+            if not user and user_name:
+                user = UserCtx.search([("login", "=ilike", user_name)], limit=1)
+            if not user and user_login:
+                user = UserCtx.search([("name", "=ilike", user_login)], limit=1)
+
+            if user:
+                user_status = "matched"
+                is_selected = True
+            elif self.auto_create_user:
+                user_status = "to_create"
+                is_selected = True
+            else:
+                user_status = "missing"
+                is_selected = False
 
             lines_to_create.append({
                 "wizard_id": self.id,
                 "row_index": row_idx,
-                "is_selected": True if user_status == "matched" else False,
+                "is_selected": is_selected,
                 "name_excel": user_name or "-",
                 "login_excel": user_login or "-",
                 "job_excel": user_job or "-",
@@ -478,51 +511,49 @@ class WizardSyncUserRoles(models.TransientModel):
 
         self.env["wizard.sync.user.roles.line"].create(lines_to_create)
         self.write({"state": "preview"})
+        return self._reopen_wizard()
 
+    def _reopen_wizard(self):
+        self.ensure_one()
+        self.invalidate_recordset()
+        view = self.env.ref("user_role_sync.view_wizard_sync_user_roles_form", raise_if_not_found=False)
         return {
+            "name": _("Sync Roles from Excel"),
             "type": "ir.actions.act_window",
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
+            "view_id": view.id if view else False,
+            "views": [(view.id if view else False, "form")],
             "target": "new",
+            "context": dict(self.env.context),
         }
 
     def action_select_all(self):
-        """Memilih seluruh baris user yang cocok di Odoo."""
+        """Memilih seluruh baris user yang siap disinkronkan."""
         self.ensure_one()
-        self.line_ids.filtered(lambda l: l.user_status == "matched").write({"is_selected": True})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        if self.auto_create_user:
+            self.line_ids.write({"is_selected": True})
+        else:
+            matched_lines = self.line_ids.filtered(lambda l: l.user_status == "matched" or bool(l.user_id))
+            if matched_lines:
+                matched_lines.write({"is_selected": True})
+            else:
+                self.line_ids.write({"is_selected": True})
+        return self._reopen_wizard()
 
     def action_deselect_all(self):
         """Membatalkan pilihan seluruh baris."""
         self.ensure_one()
         self.line_ids.write({"is_selected": False})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     def action_back_to_upload(self):
         """Kembali ke mode upload untuk mengganti file jika preview belum sesuai."""
         self.ensure_one()
         self.line_ids.unlink()
         self.write({"state": "draft"})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     # =========================================================================
     # STEP 2: CONFIRM & APPLY ROLES TO RES.USERS
@@ -533,22 +564,50 @@ class WizardSyncUserRoles(models.TransientModel):
         if not self.line_ids:
             raise UserError(_("Tidak ada data yang dapat disinkronkan. Silakan muat file Excel terlebih dahulu."))
 
-        selected_lines = self.line_ids.filtered(lambda l: l.is_selected and l.user_id)
+        selected_lines = self.line_ids.filtered(lambda l: l.is_selected)
         if not selected_lines:
-            raise UserError(_("Tidak ada baris user yang dipilih untuk disinkronkan. Silakan centang minimal satu user yang berstatus 'Ditemukan di Odoo'."))
+            raise UserError(
+                _("Tidak ada baris user yang dipilih untuk disinkronkan.\n"
+                  "Silakan centang minimal satu baris user yang berstatus 'Ditemukan di Odoo', pilih user manual pada kolom 'User di Odoo', atau aktifkan opsi 'Buat Akun User Otomatis' pada langkah upload.")
+            )
 
+        User = self.env["res.users"].sudo()
         Role = self.env["res.users.role"].sudo()
         RoleLine = self.env["res.users.role.line"].sudo()
-        Group = self.env["res.groups"].sudo()
-        Category = self.env["ir.module.category"].sudo()
 
         base_user_group = self.env.ref("base.group_user", raise_if_not_found=False)
 
         updated_users = []
+        created_users_count = 0
         assigned_count = 0
 
         for line in selected_lines:
             user = line.user_id
+
+            # Jika user belum ada di Odoo dan opsi auto_create_user aktif
+            if not user and self.auto_create_user:
+                login_val = line.login_excel if (line.login_excel and line.login_excel != "-") else line.name_excel
+                name_val = line.name_excel if (line.name_excel and line.name_excel != "-") else login_val
+
+                if not login_val:
+                    continue
+
+                email_val = login_val if "@" in login_val else False
+                user_vals = {
+                    "name": name_val,
+                    "login": login_val,
+                    "email": email_val or False,
+                }
+                if base_user_group:
+                    user_vals["groups_id"] = [(4, base_user_group.id)]
+
+                user = User.create(user_vals)
+                line.write({"user_id": user.id, "user_status": "matched"})
+                created_users_count += 1
+
+            if not user:
+                continue
+
             target_role_names = [r.strip() for r in (line.role_names or "").split(",") if r.strip()]
             
             user_target_roles = []
@@ -589,13 +648,23 @@ class WizardSyncUserRoles(models.TransientModel):
             if user.id not in [u.id for u in updated_users]:
                 updated_users.append(user)
 
+        if not updated_users:
+            raise UserError(
+                _("Tidak ada akun user yang berhasil diproses.\n"
+                  "Pastikan user sudah terdaftar di Odoo, atau pilih user secara manual pada tabel, atau aktifkan opsi 'Buat Akun User Otomatis'.")
+            )
+
         # HTML Summary
+        summary_details = f"Total <strong>{len(updated_users)} User</strong> berhasil disinkronkan dan hak aksesnya telah aktif pada tab <strong>User Roles</strong>."
+        if created_users_count > 0:
+            summary_details += f"<br/><em>(Termasuk <strong>{created_users_count} Akun User Baru</strong> yang dibuat otomatis)</em>"
+
         summary_html = f"""
         <div style="font-family: sans-serif; font-size: 13px;">
             <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; border-radius: 6px; margin-bottom: 15px;">
                 <h4 style="margin-top: 0; margin-bottom: 8px;">✓ Sinkronisasi Role Berhasil Diterapkan!</h4>
                 <p style="margin: 0; font-size: 14px;">
-                    Total <strong>{len(updated_users)} User</strong> berhasil disinkronkan dan hak aksesnya telah aktif pada tab <strong>User Roles</strong>.
+                    {summary_details}
                 </p>
             </div>
             <p class="text-muted">
@@ -608,14 +677,7 @@ class WizardSyncUserRoles(models.TransientModel):
             "result_summary": summary_html,
             "state": "done",
         })
-
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
+        return self._reopen_wizard()
 
     def action_view_updated_users(self):
         """Membuka view res.users untuk mengecek langsung tab User Roles pada user-user yang di-update."""
@@ -642,17 +704,17 @@ class WizardSyncUserRolesLine(models.TransientModel):
         ondelete="cascade",
     )
     row_index = fields.Integer(string="Baris")
-    name_excel = fields.Char(string="Nama (Excel)")
-    login_excel = fields.Char(string="Email / Login (Excel)")
-    job_excel = fields.Char(string="Jabatan / Dept")
-    
     user_id = fields.Many2one(
         comodel_name="res.users",
         string="User Cocok di Odoo",
     )
+    name_excel = fields.Char(string="Nama (Excel)")
+    login_excel = fields.Char(string="Email / Login (Excel)")
+    job_excel = fields.Char(string="Jabatan / Dept")
     user_status = fields.Selection(
         selection=[
             ("matched", "Ditemukan di Odoo"),
+            ("to_create", "Akan Dibuat Otomatis"),
             ("missing", "Belum Ada di Odoo"),
         ],
         string="Status User",
@@ -666,3 +728,15 @@ class WizardSyncUserRolesLine(models.TransientModel):
     role_names = fields.Char(string="Target Role(s)")
     permissions_summary = fields.Char(string="Izin Modul Dinamis")
     is_enabled = fields.Boolean(string="Role Aktif", default=True)
+
+    @api.onchange("user_id")
+    def _onchange_user_id(self):
+        for rec in self:
+            if rec.user_id:
+                rec.user_status = "matched"
+                rec.is_selected = True
+            elif rec.wizard_id.auto_create_user:
+                rec.user_status = "to_create"
+            else:
+                rec.user_status = "missing"
+                rec.is_selected = False

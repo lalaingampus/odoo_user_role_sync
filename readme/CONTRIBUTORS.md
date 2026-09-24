@@ -1,1 +1,1 @@
-* CV. Anugerah Khair Arkananta
+* CV. Anugerah Khair Arkananta <info@arkananta.id>
