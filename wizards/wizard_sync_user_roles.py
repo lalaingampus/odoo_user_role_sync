@@ -442,20 +442,40 @@ class WizardSyncUserRoles(models.TransientModel):
                 else:
                     detected_roles = [f"{self.default_role_prefix} Standard User".strip()]
 
-            # Cari user di Odoo
-            user = User.search(
-                [
+            # Cari user di Odoo dengan multi-strategi pencarian
+            user = False
+            UserCtx = User.with_context(active_test=False)
+
+            # 1. Exact match Login, Email, atau Name
+            domain = []
+            if user_login:
+                domain.extend([("login", "=ilike", user_login), ("email", "=ilike", user_login)])
+            if user_name:
+                domain.append(("name", "=ilike", user_name))
+            
+            if domain:
+                if len(domain) > 1:
+                    full_domain = ["|"] * (len(domain) - 1) + domain
+                else:
+                    full_domain = domain
+                user = UserCtx.search(full_domain, limit=1)
+
+            # 2. Match short login (bagian sebelum @ pada email)
+            if not user and user_login and "@" in user_login:
+                short_login = user_login.split("@")[0].strip()
+                user = UserCtx.search([
                     "|",
                     "|",
-                    ("login", "=ilike", user_login),
-                    ("email", "=ilike", user_login),
-                    ("name", "=ilike", user_name),
-                ],
-                limit=1,
-            )
+                    ("login", "=ilike", short_login),
+                    ("email", "=ilike", short_login),
+                    ("name", "=ilike", short_login),
+                ], limit=1)
+
+            # 3. Match login berdasarkan nama atau sebaliknya
+            if not user and user_name:
+                user = UserCtx.search([("login", "=ilike", user_name)], limit=1)
             if not user and user_login:
-                short_login = user_login.split("@")[0]
-                user = User.search([("login", "=ilike", short_login)], limit=1)
+                user = UserCtx.search([("name", "=ilike", user_login)], limit=1)
 
             user_status = "matched" if user else "missing"
 
