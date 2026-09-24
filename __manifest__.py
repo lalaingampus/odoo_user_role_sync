@@ -20,6 +20,9 @@
         "security/ir.model.access.csv",
         "views/wizard_sync_user_roles_views.xml",
     ],
+    "images": [
+        "static/description/banner.png",
+    ],
     "external_dependencies": {
         "python": [
             "openpyxl",
