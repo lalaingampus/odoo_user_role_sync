@@ -1,1 +1,1 @@
-* Spektra Solusindo <info@spektrasolusindo.com>
+* CV. Anugerah Khair Arkananta

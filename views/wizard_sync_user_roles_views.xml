@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright 2026 Spektra Solusindo
+<!-- Copyright 2026 CV. Anugerah Khair Arkananta
      License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html). -->
 <odoo>
     <record id="view_wizard_sync_user_roles_form" model="ir.ui.view">
@@ -61,32 +61,55 @@
                     <!-- STEP 2: PREVIEW & VERIFIKASI (STATE = PREVIEW) -->
                     <!-- ========================================================= -->
                     <div invisible="state != 'preview'">
-                        <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+                        <div class="alert alert-info d-flex justify-content-between align-items-center mb-2 py-2 px-3 shadow-sm rounded" role="alert">
                             <div>
-                                <h5 class="alert-heading mb-1"><i class="fa fa-search me-1" /> Langkah 2: Pengecekan Hasil Analisis Excel</h5>
-                                <p class="mb-0">
-                                    Periksa tabel di bawah ini. Pastikan user dan role yang terdeteksi sudah sesuai. Jika sudah benar, klik tombol <strong>"Konfirmasi &amp; Terapkan Role"</strong>.
+                                <h6 class="alert-heading mb-0 fw-bold text-dark">
+                                    <i class="fa fa-check-square me-1 text-primary" /> Langkah 2: Pengecekan &amp; Pemilihan User
+                                </h6>
+                                <p class="mb-0 text-muted small">
+                                    Centang atau pilih baris user yang ingin disinkronkan, lalu klik <strong>"Konfirmasi &amp; Terapkan Role"</strong>.
                                 </p>
                             </div>
-                            <div class="text-end">
-                                <span class="badge bg-primary fs-6 me-1"><field name="total_rows" nolabel="1" /> Total</span>
-                                <span class="badge bg-success fs-6 me-1"><field name="matched_rows" nolabel="1" /> Cocok di Odoo</span>
-                                <span class="badge bg-danger fs-6" invisible="missing_rows == 0"><field name="missing_rows" nolabel="1" /> Belum Terdaftar</span>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <span class="badge rounded-pill bg-white text-dark border px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;">
+                                    <i class="fa fa-list text-muted me-1" /> Total: <field name="total_rows" nolabel="1" class="fw-bold" />
+                                </span>
+                                <span class="badge rounded-pill bg-primary text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;">
+                                    <i class="fa fa-check-square me-1" /> Dipilih: <field name="selected_rows" nolabel="1" class="fw-bold" />
+                                </span>
+                                <span class="badge rounded-pill bg-success text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;">
+                                    <i class="fa fa-check-circle me-1" /> Cocok di Odoo: <field name="matched_rows" nolabel="1" class="fw-bold" />
+                                </span>
+                                <span class="badge rounded-pill bg-danger text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;" invisible="missing_rows == 0">
+                                    <i class="fa fa-exclamation-triangle me-1" /> Belum Terdaftar: <field name="missing_rows" nolabel="1" class="fw-bold" />
+                                </span>
                             </div>
                         </div>
 
-                        <field name="line_ids" readonly="1">
-                            <list decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'">
-                                <field name="row_index" string="Baris" />
-                                <field name="name_excel" string="Nama di Excel" />
-                                <field name="login_excel" string="Login / Email" />
-                                <field name="job_excel" string="Jabatan" />
-                                <field name="user_id" string="User di Odoo" />
-                                <field name="user_status" widget="badge" decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'" string="Status Akun" />
-                                <field name="role_names" string="Target Role Odoo" />
-                                <field name="permissions_summary" string="Ringkasan Izin Modul" />
-                                <field name="is_enabled" widget="boolean_toggle" string="Aktif" />
-                            </list>
+                        <!-- Quick Selection Toolbar -->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="btn-group btn-group-sm">
+                                <button name="action_select_all" string="Pilih Semua User Cocok" type="object" icon="fa-check-square-o" class="btn btn-outline-primary btn-sm" />
+                                <button name="action_deselect_all" string="Batal Pilih Semua" type="object" icon="fa-square-o" class="btn btn-outline-secondary btn-sm" />
+                            </div>
+                            <span class="text-muted small">
+                                <i class="fa fa-info-circle me-1"/>Tips: Anda dapat mengaktifkan/menonaktifkan baris yang ingin disinkronkan pada kolom <strong>Pilih / Sync</strong>.
+                            </span>
+                        </div>
+
+                        <field name="line_ids">
+                            <tree editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
+                                <field name="is_selected" widget="boolean_toggle" string="Pilih / Sync" />
+                                <field name="row_index" readonly="1" string="Baris" />
+                                <field name="name_excel" readonly="1" string="Nama di Excel" />
+                                <field name="login_excel" readonly="1" string="Login / Email" />
+                                <field name="job_excel" readonly="1" string="Jabatan" />
+                                <field name="user_id" readonly="1" string="User di Odoo" />
+                                <field name="user_status" readonly="1" widget="badge" decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'" string="Status Akun" />
+                                <field name="role_names" readonly="1" string="Target Role Odoo" />
+                                <field name="permissions_summary" readonly="1" string="Ringkasan Izin Modul" />
+                                <field name="is_enabled" widget="boolean_toggle" string="Role Aktif" />
+                            </tree>
                         </field>
                     </div>
 
