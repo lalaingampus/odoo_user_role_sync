@@ -61,29 +61,44 @@
                     <!-- STEP 2: PREVIEW & VERIFIKASI (STATE = PREVIEW) -->
                     <!-- ========================================================= -->
                     <div attrs="{'invisible': [('state', '!=', 'preview')]}">
-                        <div class="alert alert-info py-2 px-3 shadow-sm rounded-3 mb-2" role="alert">
-                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="alert alert-info py-2 px-3 shadow-sm rounded mb-3" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-check-square fa-2x text-primary me-3"/>
                                 <div>
                                     <h6 class="alert-heading mb-0 fw-bold text-dark">
-                                        <i class="fa fa-check-square me-1 text-primary" /> Langkah 2: Pengecekan &amp; Pemilihan User
+                                        Langkah 2: Pengecekan &amp; Pemilihan User
                                     </h6>
-                                    <p class="mb-0 text-muted small">
+                                    <div class="text-muted small">
                                         Centang baris user yang ingin disinkronkan, lalu klik <strong>"Konfirmasi &amp; Terapkan Role"</strong>.
-                                    </p>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <span class="badge bg-light text-dark border px-2 py-1 shadow-sm d-inline-flex align-items-center">
-                                        <i class="fa fa-list text-muted me-1" /> Total: <field name="total_rows" readonly="1" nolabel="1" class="fw-bold ms-1" />
-                                    </span>
-                                    <span class="badge bg-primary text-white px-2 py-1 shadow-sm d-inline-flex align-items-center">
-                                        <i class="fa fa-check-square me-1" /> Dipilih: <field name="selected_rows" readonly="1" nolabel="1" class="fw-bold ms-1 text-white" />
-                                    </span>
-                                    <span class="badge bg-success text-white px-2 py-1 shadow-sm d-inline-flex align-items-center">
-                                        <i class="fa fa-check-circle me-1" /> Cocok: <field name="matched_rows" readonly="1" nolabel="1" class="fw-bold ms-1 text-white" />
-                                    </span>
-                                    <span class="badge bg-danger text-white px-2 py-1 shadow-sm d-inline-flex align-items-center" attrs="{'invisible': [('missing_rows', '=', 0)]}">
-                                        <i class="fa fa-exclamation-triangle me-1" /> Belum Terdaftar: <field name="missing_rows" readonly="1" nolabel="1" class="fw-bold ms-1 text-white" />
-                                    </span>
+                            </div>
+                        </div>
+
+                        <!-- Summary Stat Cards -->
+                        <div class="row g-2 mb-3 text-center">
+                            <div class="col-3">
+                                <div class="p-2 border rounded bg-light">
+                                    <div class="text-muted small fw-semibold"><i class="fa fa-list me-1"/>Total Baris</div>
+                                    <div class="fs-4 fw-bold text-dark"><field name="total_rows" readonly="1" nolabel="1"/></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-2 border border-primary rounded bg-primary bg-opacity-10">
+                                    <div class="text-primary small fw-semibold"><i class="fa fa-check-square me-1"/>User Dipilih</div>
+                                    <div class="fs-4 fw-bold text-primary"><field name="selected_rows" readonly="1" nolabel="1"/></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-2 border border-success rounded bg-success bg-opacity-10">
+                                    <div class="text-success small fw-semibold"><i class="fa fa-check-circle me-1"/>Cocok di Odoo</div>
+                                    <div class="fs-4 fw-bold text-success"><field name="matched_rows" readonly="1" nolabel="1"/></div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-2 border border-danger rounded bg-danger bg-opacity-10">
+                                    <div class="text-danger small fw-semibold"><i class="fa fa-exclamation-triangle me-1"/>Belum Terdaftar</div>
+                                    <div class="fs-4 fw-bold text-danger"><field name="missing_rows" readonly="1" nolabel="1"/></div>
                                 </div>
                             </div>
                         </div>
