@@ -52,6 +52,7 @@
                             <group string="Pengaturan Sinkronisasi">
                                 <field name="template_type" widget="radio" />
                                 <field name="auto_create_role" />
+                                <field name="auto_create_user" />
                                 <field name="default_role_prefix" placeholder="Contoh: Role -" />
                             </group>
                         </group>
@@ -110,18 +111,18 @@
                                 <button name="action_deselect_all" string="Batal Pilih Semua" type="object" icon="fa-square-o" class="btn btn-outline-secondary btn-sm" />
                             </div>
                             <span class="text-muted small">
-                                <i class="fa fa-info-circle me-1"/>Tips: Anda dapat mengaktifkan/menonaktifkan baris yang ingin disinkronkan pada kolom <strong>Pilih / Sync</strong>.
+                                <i class="fa fa-info-circle me-1"/>Tips: Anda dapat memilih user manual pada kolom <strong>User di Odoo</strong> jika nama akun berbeda.
                             </span>
                         </div>
 
                         <field name="line_ids">
-                            <tree editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
+                            <tree editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-info="user_status == 'to_create'" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
                                 <field name="is_selected" widget="boolean_toggle" string="Pilih / Sync" />
                                 <field name="row_index" readonly="1" string="Baris" optional="show" />
                                 <field name="name_excel" readonly="1" string="Nama di Excel" />
                                 <field name="login_excel" readonly="1" string="Login / Email" />
-                                <field name="user_id" readonly="1" string="User di Odoo" />
-                                <field name="user_status" readonly="1" widget="badge" decoration-success="user_status == 'matched'" decoration-danger="user_status == 'missing'" string="Status Akun" />
+                                <field name="user_id" string="User di Odoo" />
+                                <field name="user_status" readonly="1" widget="badge" decoration-success="user_status == 'matched'" decoration-info="user_status == 'to_create'" decoration-danger="user_status == 'missing'" string="Status Akun" />
                                 <field name="job_excel" readonly="1" string="Jabatan" optional="show" />
                                 <field name="role_names" readonly="1" string="Target Role Odoo" />
                                 <field name="permissions_summary" readonly="1" string="Ringkasan Izin Modul" optional="hide" />
