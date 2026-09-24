@@ -2,7 +2,11 @@
 
 <div align="center">
 
-[![License: LGPL-3](https://img.shields.io/badge/licence-LGPL--3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0-standalone.html)
+<img src="static/description/banner.png" alt="User Role Sync from Excel Banner" width="100%"/>
+
+<br/><br/>
+
+[![License: LGPL-3](https://img.shields.io/badge/licence-LGPL--3-blue.svg)](LICENSE)
 [![Odoo Version](https://img.shields.io/badge/odoo-17.0-brightgreen.svg)](https://www.odoo.com)
 [![Translation: i18n](https://img.shields.io/badge/i18n-ID%20%7C%20EN-purple.svg)](i18n/)
 
