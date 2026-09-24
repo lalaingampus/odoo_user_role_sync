@@ -1,7 +1,19 @@
 # User Role Sync from Excel (`user_role_sync`)
 
+<div align="center">
+
 [![License: LGPL-3](https://img.shields.io/badge/licence-LGPL--3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0-standalone.html)
 [![Odoo Version](https://img.shields.io/badge/odoo-18.0-brightgreen.svg)](https://www.odoo.com)
+[![Translation: i18n](https://img.shields.io/badge/i18n-ID%20%7C%20EN-purple.svg)](i18n/)
+
+<br/>
+
+[![Bahasa Indonesia](https://img.shields.io/badge/🇮🇩%20Bahasa%20Indonesia-Active-blue?style=for-the-badge)](README.md)
+[![English](https://img.shields.io/badge/🇬🇧%20English-Switch%20to%20EN-lightgrey?style=for-the-badge)](README.en.md)
+
+</div>
+
+---
 
 **User Role Sync from Excel** adalah modul Odoo 18 yang memperluas fungsionalitas modul OCA [`base_user_role`](https://github.com/OCA/server-auth) dengan menyediakan wizard interaktif untuk mengimpor, memetakan, dan menyinkronkan hak akses user (*User Roles*) secara massal (*batch*) langsung dari spreadsheet Microsoft Excel (`.xlsx`).
 
@@ -16,6 +28,7 @@
 - ➕ **Auto-create Missing Roles**: Secara otomatis membuat role baru di `res.users.role` jika role yang ada di spreadsheet belum terdaftar di Odoo.
 - 👤 **Auto-create Missing Users**: Opsi untuk membuat akun login `res.users` baru secara otomatis jika data user di Excel belum ada di database.
 - ⚡ **Instant Group Application**: Menerapkan hak akses, *menu visibility*, dan *record rules* secara instan ke user via `set_groups_from_roles(force=True)`.
+- 🌐 **Multi-Language (i18n)**: Mendukung Bahasa Indonesia dan English secara native menggunakan GNU gettext standard (`.po` / `.pot`).
 - 🧩 **OCA Compliant**: 100% kompatibel dengan arsitektur standar OCA `base_user_role`.
 
 ---

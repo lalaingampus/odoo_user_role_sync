@@ -53,9 +53,9 @@ class WizardSyncUserRoles(models.TransientModel):
         help="If enabled, roles found in the spreadsheet that do not exist yet in Odoo will be automatically created.",
     )
     auto_create_user = fields.Boolean(
-        string="Auto-create Missing Users (Buat Akun User Baru Otomatis)",
+        string="Auto-create Missing Users",
         default=False,
-        help="Jika diaktifkan, data user di Excel yang belum terdaftar di database Odoo akan otomatis dibuatkan akun login res.users baru.",
+        help="If enabled, users found in Excel that do not exist yet in Odoo will be automatically created.",
     )
 
     default_role_prefix = fields.Char(
@@ -76,35 +76,35 @@ class WizardSyncUserRoles(models.TransientModel):
     line_ids = fields.One2many(
         comodel_name="wizard.sync.user.roles.line",
         inverse_name="wizard_id",
-        string="Preview Baris Data",
+        string="Preview Data Lines",
     )
 
     total_rows = fields.Integer(
-        string="Total Baris",
+        string="Total Rows",
         compute="_compute_counts",
     )
     matched_rows = fields.Integer(
-        string="User Ditemukan",
+        string="Matched Users",
         compute="_compute_counts",
     )
     missing_rows = fields.Integer(
-        string="User Belum Ada",
+        string="Missing Users",
         compute="_compute_counts",
     )
     selected_rows = fields.Integer(
-        string="Dipilih",
+        string="Selected",
         compute="_compute_counts",
     )
 
     result_summary = fields.Html(
-        string="Ringkasan Hasil Sinkronisasi",
+        string="Sync Result Summary",
         readonly=True,
     )
     state = fields.Selection(
         selection=[
             ("draft", "Upload File"),
-            ("preview", "Pengecekan & Verifikasi"),
-            ("done", "Selesai"),
+            ("preview", "Check & Verify"),
+            ("done", "Done"),
         ],
         string="Status",
         default="draft",
@@ -280,9 +280,9 @@ class WizardSyncUserRoles(models.TransientModel):
         ws_info.append(["Jabatan/Dept", "Posisi atau divisi user", "Staff, Manager, Supervisor, dll."])
         ws_info.append(["Role Name (Opsional)", "Nama Role yang ingin dipasangkan/dibuat", "Bisa dikosongkan untuk auto-generate"])
         ws_info.append(["Kolom Aplikasi/Modul", "Izin akses per aplikasi Odoo yang terpasang:", ""])
-        ws_info.append(["", "• Create, Read, Edit (atau Manager / Full)", "Hak akses penuh (buat, ubah, lihat)"])
-        ws_info.append(["", "• Read Only (atau User / View)", "Hak akses melihat saja"])
-        ws_info.append(["", "• - (atau kosong / None)", "Tidak memiliki akses ke modul tersebut"])
+        ws_info.append(["", "ΓÇó Create, Read, Edit (atau Manager / Full)", "Hak akses penuh (buat, ubah, lihat)"])
+        ws_info.append(["", "ΓÇó Read Only (atau User / View)", "Hak akses melihat saja"])
+        ws_info.append(["", "ΓÇó - (atau kosong / None)", "Tidak memiliki akses ke modul tersebut"])
 
         ws_info.cell(row=1, column=1).font = Font(size=13, bold=True, color="714B67")
         ws_info.row_dimensions[1].height = 25
@@ -324,20 +324,20 @@ class WizardSyncUserRoles(models.TransientModel):
     # STEP 1: PARSE & LOAD DATA TO PREVIEW TABLE
     # =========================================================================
     def action_load_preview(self):
-        """Membaca file Excel dan menampilkan tabel preview untuk diverifikasi user terlebih dahulu."""
+        """Parse Excel file and generate preview rows for verification."""
         self.ensure_one()
         if not self.file_excel:
-            raise UserError(_("Harap pilih file Excel terlebih dahulu."))
+            raise UserError(_("Please select an Excel file first."))
 
         if not openpyxl:
-            raise UserError(_("Library 'openpyxl' dibutuhkan untuk membaca file Excel."))
+            raise UserError(_("The 'openpyxl' Python library is required to read Excel files."))
 
         try:
             file_data = base64.b64decode(self.file_excel)
             wb = openpyxl.load_workbook(io.BytesIO(file_data), data_only=True)
             ws = wb.active
         except Exception as e:
-            raise UserError(_("Gagal membaca file Excel. Pastikan format file .xlsx valid.\nError: %s") % str(e))
+            raise UserError(_("Failed to read Excel file. Please ensure the .xlsx format is valid.\nError: %s") % str(e))
 
         # Bersihkan baris preview sebelumnya jika ada
         self.line_ids.unlink()
@@ -507,7 +507,7 @@ class WizardSyncUserRoles(models.TransientModel):
             })
 
         if not lines_to_create:
-            raise UserError(_("Tidak ada data baris user yang valid di dalam file Excel."))
+            raise UserError(_("No valid user data found in the Excel file."))
 
         self.env["wizard.sync.user.roles.line"].create(lines_to_create)
         self.write({"state": "preview"})
@@ -530,7 +530,7 @@ class WizardSyncUserRoles(models.TransientModel):
         }
 
     def action_select_all(self):
-        """Memilih seluruh baris user yang siap disinkronkan."""
+        """Select all matched user rows."""
         self.ensure_one()
         if self.auto_create_user:
             self.line_ids.write({"is_selected": True})
@@ -543,13 +543,13 @@ class WizardSyncUserRoles(models.TransientModel):
         return self._reopen_wizard()
 
     def action_deselect_all(self):
-        """Membatalkan pilihan seluruh baris."""
+        """Deselect all rows."""
         self.ensure_one()
         self.line_ids.write({"is_selected": False})
         return self._reopen_wizard()
 
     def action_back_to_upload(self):
-        """Kembali ke mode upload untuk mengganti file jika preview belum sesuai."""
+        """Go back to upload mode to re-upload another file."""
         self.ensure_one()
         self.line_ids.unlink()
         self.write({"state": "draft"})
@@ -559,16 +559,16 @@ class WizardSyncUserRoles(models.TransientModel):
     # STEP 2: CONFIRM & APPLY ROLES TO RES.USERS
     # =========================================================================
     def action_apply_sync(self):
-        """Menerapkan role yang sudah diverifikasi ke database dan tab User Roles pada res.users."""
+        """Apply verified roles to database and res.users role lines."""
         self.ensure_one()
         if not self.line_ids:
-            raise UserError(_("Tidak ada data yang dapat disinkronkan. Silakan muat file Excel terlebih dahulu."))
+            raise UserError(_("No data to synchronize. Please load an Excel file first."))
 
         selected_lines = self.line_ids.filtered(lambda l: l.is_selected)
         if not selected_lines:
             raise UserError(
-                _("Tidak ada baris user yang dipilih untuk disinkronkan.\n"
-                  "Silakan centang minimal satu baris user yang berstatus 'Ditemukan di Odoo', pilih user manual pada kolom 'User di Odoo', atau aktifkan opsi 'Buat Akun User Otomatis' pada langkah upload.")
+                _("No user rows selected for synchronization.\n"
+                  "Please select at least one matched user row, assign a user manually, or enable 'Auto-create Missing Users'.")
             )
 
         User = self.env["res.users"].sudo()
@@ -584,7 +584,7 @@ class WizardSyncUserRoles(models.TransientModel):
         for line in selected_lines:
             user = line.user_id
 
-            # Jika user belum ada di Odoo dan opsi auto_create_user aktif
+            # If user does not exist in Odoo and auto_create_user is enabled
             if not user and self.auto_create_user:
                 login_val = line.login_excel if (line.login_excel and line.login_excel != "-") else line.name_excel
                 name_val = line.name_excel if (line.name_excel and line.name_excel != "-") else login_val
@@ -643,32 +643,35 @@ class WizardSyncUserRoles(models.TransientModel):
                         role_line.write({"is_enabled": line.is_enabled})
                         assigned_count += 1
 
-            # Terapkan perubahan ke grup security Odoo
+            # Apply groups from roles
             user.set_groups_from_roles(force=True)
             if user.id not in [u.id for u in updated_users]:
                 updated_users.append(user)
 
         if not updated_users:
             raise UserError(
-                _("Tidak ada akun user yang berhasil diproses.\n"
-                  "Pastikan user sudah terdaftar di Odoo, atau pilih user secara manual pada tabel, atau aktifkan opsi 'Buat Akun User Otomatis'.")
+                _("No user accounts were successfully processed.\n"
+                  "Please make sure users are registered in Odoo, select them manually in the table, or enable 'Auto-create Missing Users'.")
             )
 
         # HTML Summary
-        summary_details = f"Total <strong>{len(updated_users)} User</strong> berhasil disinkronkan dan hak aksesnya telah aktif pada tab <strong>User Roles</strong>."
+        summary_title = _("Role Synchronization Successfully Applied!")
+        summary_details = _("Total <strong>%s Users</strong> have been synchronized and their roles are active.") % len(updated_users)
         if created_users_count > 0:
-            summary_details += f"<br/><em>(Termasuk <strong>{created_users_count} Akun User Baru</strong> yang dibuat otomatis)</em>"
+            summary_details += _("<br/><em>(Including <strong>%s New User Accounts</strong> created automatically)</em>") % created_users_count
+
+        hint_text = _("You can review the updated roles under <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> (User Roles tab).")
 
         summary_html = f"""
         <div style="font-family: sans-serif; font-size: 13px;">
             <div style="padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; border-radius: 6px; margin-bottom: 15px;">
-                <h4 style="margin-top: 0; margin-bottom: 8px;">✓ Sinkronisasi Role Berhasil Diterapkan!</h4>
+                <h4 style="margin-top: 0; margin-bottom: 8px;">Γ£ô {summary_title}</h4>
                 <p style="margin: 0; font-size: 14px;">
                     {summary_details}
                 </p>
             </div>
             <p class="text-muted">
-                Anda dapat melihat hasil pembaruan langsung pada menu <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> (Tab <em>User Roles</em>).
+                {hint_text}
             </p>
         </div>
         """
@@ -680,11 +683,11 @@ class WizardSyncUserRoles(models.TransientModel):
         return self._reopen_wizard()
 
     def action_view_updated_users(self):
-        """Membuka view res.users untuk mengecek langsung tab User Roles pada user-user yang di-update."""
+        """Open res.users view to inspect synchronized users."""
         self.ensure_one()
         matched_user_ids = self.line_ids.mapped("user_id").ids
         return {
-            "name": _("User yang Berhasil Disinkronkan"),
+            "name": _("Successfully Synchronized Users"),
             "type": "ir.actions.act_window",
             "res_model": "res.users",
             "view_mode": "list,form",
@@ -695,7 +698,7 @@ class WizardSyncUserRoles(models.TransientModel):
 
 class WizardSyncUserRolesLine(models.TransientModel):
     _name = "wizard.sync.user.roles.line"
-    _description = "Preview Baris Sinkronisasi User Role"
+    _description = "User Role Sync Preview Line"
     _order = "row_index asc"
 
     wizard_id = fields.Many2one(
@@ -703,31 +706,31 @@ class WizardSyncUserRolesLine(models.TransientModel):
         string="Wizard Parent",
         ondelete="cascade",
     )
-    row_index = fields.Integer(string="Baris")
+    row_index = fields.Integer(string="Row")
     user_id = fields.Many2one(
         comodel_name="res.users",
-        string="User Cocok di Odoo",
+        string="Matched User in Odoo",
     )
-    name_excel = fields.Char(string="Nama (Excel)")
+    name_excel = fields.Char(string="Name (Excel)")
     login_excel = fields.Char(string="Email / Login (Excel)")
-    job_excel = fields.Char(string="Jabatan / Dept")
+    job_excel = fields.Char(string="Job / Dept")
     user_status = fields.Selection(
         selection=[
-            ("matched", "Ditemukan di Odoo"),
-            ("to_create", "Akan Dibuat Otomatis"),
-            ("missing", "Belum Ada di Odoo"),
+            ("matched", "Found in Odoo"),
+            ("to_create", "To Be Created"),
+            ("missing", "Not in Odoo"),
         ],
-        string="Status User",
+        string="User Status",
         default="matched",
     )
     is_selected = fields.Boolean(
-        string="Pilih",
+        string="Select",
         default=True,
-        help="Centang untuk menyinkronkan user ini ke Odoo.",
+        help="Check to synchronize this user to Odoo.",
     )
     role_names = fields.Char(string="Target Role(s)")
-    permissions_summary = fields.Char(string="Izin Modul Dinamis")
-    is_enabled = fields.Boolean(string="Role Aktif", default=True)
+    permissions_summary = fields.Char(string="Dynamic Module Permissions")
+    is_enabled = fields.Boolean(string="Active Role", default=True)
 
     @api.onchange("user_id")
     def _onchange_user_id(self):
