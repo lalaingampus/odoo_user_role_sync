@@ -15,7 +15,7 @@
                     <!-- ========================================================= -->
                     <!-- STEP 1: UPLOAD FILE (STATE = DRAFT) -->
                     <!-- ========================================================= -->
-                    <div invisible="state != 'draft'">
+                    <div attrs="{'invisible': [('state', '!=', 'draft')]}">
                         <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
                             <div>
                                 <h5 class="alert-heading mb-1"><i class="fa fa-info-circle me-1" /> Langkah 1: Upload File Matriks Role</h5>
@@ -60,7 +60,7 @@
                     <!-- ========================================================= -->
                     <!-- STEP 2: PREVIEW & VERIFIKASI (STATE = PREVIEW) -->
                     <!-- ========================================================= -->
-                    <div invisible="state != 'preview'">
+                    <div attrs="{'invisible': [('state', '!=', 'preview')]}">
                         <div class="alert alert-info d-flex justify-content-between align-items-center mb-2 py-2 px-3 shadow-sm rounded" role="alert">
                             <div>
                                 <h6 class="alert-heading mb-0 fw-bold text-dark">
@@ -80,7 +80,7 @@
                                 <span class="badge rounded-pill bg-success text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;">
                                     <i class="fa fa-check-circle me-1" /> Cocok di Odoo: <field name="matched_rows" nolabel="1" class="fw-bold" />
                                 </span>
-                                <span class="badge rounded-pill bg-danger text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;" invisible="missing_rows == 0">
+                                <span class="badge rounded-pill bg-danger text-white px-3 py-2 fw-bold shadow-sm" style="white-space: nowrap; font-size: 12px;" attrs="{'invisible': [('missing_rows', '=', 0)]}">
                                     <i class="fa fa-exclamation-triangle me-1" /> Belum Terdaftar: <field name="missing_rows" nolabel="1" class="fw-bold" />
                                 </span>
                             </div>
@@ -98,7 +98,7 @@
                         </div>
 
                         <field name="line_ids">
-                            <list editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
+                            <tree editable="bottom" create="0" delete="0" decoration-success="user_status == 'matched' and is_selected" decoration-muted="not is_selected" decoration-danger="user_status == 'missing'">
                                 <field name="is_selected" widget="boolean_toggle" string="Pilih / Sync" />
                                 <field name="row_index" readonly="1" string="Baris" />
                                 <field name="name_excel" readonly="1" string="Nama di Excel" />
@@ -109,14 +109,14 @@
                                 <field name="role_names" readonly="1" string="Target Role Odoo" />
                                 <field name="permissions_summary" readonly="1" string="Ringkasan Izin Modul" />
                                 <field name="is_enabled" widget="boolean_toggle" string="Role Aktif" />
-                            </list>
+                            </tree>
                         </field>
                     </div>
 
                     <!-- ========================================================= -->
                     <!-- STEP 3: HASIL SELESAI (STATE = DONE) -->
                     <!-- ========================================================= -->
-                    <div invisible="state != 'done'">
+                    <div attrs="{'invisible': [('state', '!=', 'done')]}">
                         <field name="result_summary" widget="html" nolabel="1" />
                     </div>
                 </sheet>
@@ -127,7 +127,7 @@
                         string="Muat &amp; Cek Preview Data"
                         type="object"
                         class="btn-primary"
-                        invisible="state != 'draft'"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
                     <button
                         name="action_download_template"
@@ -135,13 +135,13 @@
                         type="object"
                         icon="fa-download"
                         class="btn btn-secondary"
-                        invisible="state != 'draft'"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
                     <button
                         string="Batal"
                         class="btn-secondary"
                         special="cancel"
-                        invisible="state != 'draft'"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"
                     />
 
                     <!-- Tombol Step 2 -->
@@ -150,7 +150,7 @@
                         string="Konfirmasi &amp; Terapkan Role"
                         type="object"
                         class="btn-success"
-                        invisible="state != 'preview'"
+                        attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
                     <button
                         name="action_back_to_upload"
@@ -158,13 +158,13 @@
                         type="object"
                         icon="fa-arrow-left"
                         class="btn-secondary"
-                        invisible="state != 'preview'"
+                        attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
                     <button
                         string="Batal"
                         class="btn-secondary"
                         special="cancel"
-                        invisible="state != 'preview'"
+                        attrs="{'invisible': [('state', '!=', 'preview')]}"
                     />
 
                     <!-- Tombol Step 3 -->
@@ -174,13 +174,13 @@
                         type="object"
                         class="btn-primary"
                         icon="fa-users"
-                        invisible="state != 'done'"
+                        attrs="{'invisible': [('state', '!=', 'done')]}"
                     />
                     <button
                         string="Tutup"
                         class="btn-secondary"
                         special="cancel"
-                        invisible="state != 'done'"
+                        attrs="{'invisible': [('state', '!=', 'done')]}"
                     />
                 </footer>
             </form>

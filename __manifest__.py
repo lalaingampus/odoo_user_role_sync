@@ -4,7 +4,7 @@
 {
     "name": "User Role Sync from Excel",
     "summary": "Import and synchronize user roles from Excel spreadsheet",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "Administration",
     "website": "https://github.com/OCA/server-tools",
     "author": "CV. Anugerah Khair Arkananta, Odoo Community Association (OCA)",

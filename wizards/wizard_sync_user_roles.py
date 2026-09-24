@@ -625,7 +625,7 @@ class WizardSyncUserRoles(models.TransientModel):
             "name": _("User yang Berhasil Disinkronkan"),
             "type": "ir.actions.act_window",
             "res_model": "res.users",
-            "view_mode": "list,form",
+            "view_mode": "tree,form",
             "domain": [("id", "in", matched_user_ids)],
             "target": "current",
         }
