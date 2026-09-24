@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="static/description/banner.png" alt="User Role Sync from Excel Banner" width="100%"/>
+<img src="user_role_sync/static/description/banner.gif" alt="User Role Sync from Excel Banner" width="100%"/>
 
 <br/><br/>
 
